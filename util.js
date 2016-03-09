@@ -6,7 +6,7 @@ module.exports = {
 
   /* Error logger function. */
   onError: (errorMessage) => {
-    fs.appendFile(config.tempDir + "/" + config.errorLog, errorMessage + "\n");
+    fs.appendFile(config.tempDir + "/" + config.errorLog, errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
 	console.error((config.colorOutput ? (errorMessage.toLowerCase().startsWith('error') ? colors.red(errorMessage) : colors.yellow(errorMessage)) : errorMessage))
     return new Error(errorMessage);
   },
