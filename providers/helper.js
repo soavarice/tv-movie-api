@@ -1,6 +1,8 @@
 const async = require("async-q"),
   Show = require("../models/Show"),
   trakt = require("../lib/trakt"),
+  config = require("../config"),
+  colors = require("colors/safe"),
   util = require("../util");
 let name;
 
@@ -10,7 +12,7 @@ const updateEpisodes = function*(doc) {
     _id: doc._id
   }).exec();
   if (found) {
-    console.log(name + ": '" + found.title + "' is an existing show.");
+    console.log(name + ": '" + (config.colorOutput ? colors.cyan(found.title) : found.title) + "' is an existing show.");
     for (let i = 0; i < doc.episodes.length; i++) {
       let matching = found.episodes.filter((foundEpisode) => {
         return foundEpisode.season === doc.episodes[i].season && foundEpisode.episode === doc.episodes[i].episode
@@ -45,7 +47,7 @@ const updateEpisodes = function*(doc) {
     saved.num_seasons = distinct.length;
     return yield saved.save();
   } else {
-    console.log(name + ": '" + doc.title + "' is a new show!");
+    console.log(name + ": '" + (config.colorOutput ? colors.cyan(doc.title) : doc.title) + "' is a new show!");
     return yield new Show(doc).save();
   }
 };
@@ -125,9 +127,9 @@ const Helper = (_name) => {
           last_updated: Number(new Date()),
           images: {
             /* TODO: have the failed image on localhost. */
-            fanart: traktShow.images.fanart.full != null ? traktShow.images.fanart.full : "images/posterholder.png",
-            poster: traktShow.images.poster.full != null ? traktShow.images.poster.full : "images/posterholder.png",
-            banner: traktShow.images.banner.full != null ? traktShow.images.banner.full : "images/posterholder.png"
+            fanart: traktShow.images.fanart.full != null ? traktShow.images.fanart.full : "app://host/img/placeholder.png",
+            poster: traktShow.images.poster.full != null ? traktShow.images.poster.full : "app://host/img/placeholder_fanart.png",
+            banner: traktShow.images.banner.full != null ? traktShow.images.banner.full : "app://host/img/placeholder_banner.png"
           },
           genres: traktShow.genres.length != 0 ? traktShow.genres : ["Unknown"],
           episodes: []

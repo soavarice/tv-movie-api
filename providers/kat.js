@@ -1,5 +1,6 @@
 const async = require("async-q"),
   config = require("../config"),
+  colors = require("colors/safe"),
   kat = require("../lib/kat"),
   util = require("../util");
 let helper, name;
@@ -74,7 +75,7 @@ const getShowData = (torrent) => {
   } else if (torrent.title.match(dateBased)) {
     return extractShow(torrent, dateBased, true);
   } else {
-    util.onError(name + ": Could not find data from torrent: '" + torrent.title + "'");
+    util.onError(name + ": Could not find data from torrent: '" + (config.colorOutput ? colors.cyan(torrent.title) : torrent.title) + "'");
   }
 };
 
@@ -116,7 +117,7 @@ const getAllTorrents = (totalPages, provider) => {
   let katTorrents = [];
   return async.timesSeries(totalPages, (page) => {
     provider.query.page = page + 1;
-    console.log(name + ": Starting searching kat on page " + provider.query.page + " needs more " + (provider.query.page < totalPages));
+    console.log(name + ": Starting searching kat on page " + (config.colorOutput ? colors.cyan(provider.query.page) : provider.query.page) + " of " + (config.colorOutput ? colors.cyan((provider.query.page - totalPages) : (provider.query.page - totalPages)));
     return kat.search(provider.query).then((result) => {
       katTorrents = katTorrents.concat(result.results);
     }).catch((err) => {
@@ -124,7 +125,7 @@ const getAllTorrents = (totalPages, provider) => {
       return err;
     });
   }).then((value) => {
-    console.log(name + ": Found " + katTorrents.length + " torrents.");
+    console.log(name + ": Found " + (config.colorOutput ? colors.cyan(katTorrents.length) : katTorrents.length) + " torrents.");
     return katTorrents;
   });
 };
@@ -149,7 +150,7 @@ const KAT = (_name) => {
       const getTotalPages = yield kat.search(provider.query);
       const totalPages = getTotalPages.totalPages; // Change to 'const' for production.
       // totalPages = 3; // For testing purposes only.
-      console.log(name + ": Total pages " + totalPages);
+      console.log(name + ": Total pages " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));
 
       const katTorrents = yield getAllTorrents(totalPages, provider);
       const katShows = yield getAllKATShows(katTorrents);

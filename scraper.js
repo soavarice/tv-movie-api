@@ -20,7 +20,7 @@ const scrapeKAT = () => {
 const scrapeEZTV = () => {
   util.setStatus("Scraping " + eztv.name);
   return util.spawn(eztv.search()).then((response) => {
-    util.setStatus(eztv.name + ": Done.");
+	config.scrapers.kat ? util.setStatus(eztv.name + ": Done.") : util.setStatus("Idle");
     console.log(eztv.name + ": Done.");
     return response;
   });
@@ -30,14 +30,21 @@ module.exports = {
 
   /* Initiate the scraping. */
   scrape: () => {
+	var scrapers = [];
+	if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
+	if(config.scrapers.kat) scrapers.push(scrapeKAT);
     util.setlastUpdate();
-
-    async.eachSeries([scrapeEZTV, scrapeKAT], (scraper) => {
-      return scraper();
-    }).catch((err) => {
-      util.onError("Error while scraping: " + err);
-      return err;
-    }).done();
+    if(scrapers.length !== 0) {
+	  async.eachSeries(scrapers, (scraper) => {
+        return scraper();
+      }).catch((err) => {
+        util.onError("Error while scraping: " + err);
+        return err;
+      }).done();
+	} else {
+	  util.onError("Error while scraping: No scrapers enabled");
+      return "No scrapers enabled";
+	}
   }
 
 };

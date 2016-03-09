@@ -269,6 +269,20 @@ module.exports = {
       util.onError(err);
       return res.json(err);
     });
+  },
+  
+  /* Get all shows with ids, returns an array with each show as an object */
+  getSelection: (req, res) => {
+    return Show.find({
+      imdb_id:{ 
+		$in: req.params.ids.split(',')
+	  }
+    }).exec().then((docs) => {
+      return res.json(docs);
+    }).catch((err) => {
+      util.onError(err);
+      return res.json(err);
+    });
   }
 
 };

@@ -9,6 +9,8 @@ module.exports = (app) => {
   app.get("/shows", controllers.shows.getShows);
   app.get("/shows/:page", controllers.shows.getPage);
 
+  app.get('/shows/select/:ids', controllers.shows.getSelection);
+  
   app.get("/shows/search/:search", controllers.shows.search);
   app.get("/shows/search/:search/:page", controllers.shows.searchPage);
 

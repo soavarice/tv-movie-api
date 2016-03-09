@@ -1,11 +1,12 @@
 {
-  "name": "popcorn-api",
-  "version": "1.0.2",
-  "description": "An objectivly better TV series API for Popcorn Time.",
+  "name": "tv-api",
+  "version": "1.0.3",
+  "description": "An objectivly better TV series API.",
   "dependencies": {
     "async-q": "^0.3.1",
     "body-parser": "^1.15.0",
     "cheerio": "^0.20.0",
+    "colors": "^1.1.2",
     "compression": "^1.6.1",
     "cron": "^1.1.0",
     "express": "^4.13.4",
@@ -22,6 +23,6 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/cmd430/tv-api.git"
   }
 }

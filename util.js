@@ -1,4 +1,5 @@
 const fs = require("fs"),
+  colors = require('colors/safe'),
   config = require("./config");
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
   /* Error logger function. */
   onError: (errorMessage) => {
     fs.appendFile(config.tempDir + "/" + config.errorLog, errorMessage + "\n");
-    console.error(errorMessage);
+	console.error((config.colorOutput ? (errorMessage.toLowerCase().startsWith('error') ? colors.red(errorMessage) : colors.yellow(errorMessage)) : errorMessage))
     return new Error(errorMessage);
   },
 
