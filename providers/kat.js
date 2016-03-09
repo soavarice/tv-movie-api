@@ -117,7 +117,7 @@ const getAllTorrents = (totalPages, provider) => {
   let katTorrents = [];
   return async.timesSeries(totalPages, (page) => {
     provider.query.page = page + 1;
-    console.log(name + ": Starting searching kat on page " + (config.colorOutput ? colors.cyan(provider.query.page) : provider.query.page) + " of " + (config.colorOutput ? colors.cyan((provider.query.page - totalPages) : (provider.query.page - totalPages)));
+    console.log(name + ": Starting searching kat on page " + (config.colorOutput ? colors.cyan(provider.query.page) : provider.query.page) + " of " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));
     return kat.search(provider.query).then((result) => {
       katTorrents = katTorrents.concat(result.results);
     }).catch((err) => {
