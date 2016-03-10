@@ -55,7 +55,7 @@ const updateEpisodes = function*(doc) {
 /* Adds one season to a show. */
 const addSeason = function*(doc, episodes, season_no, slug) {
   season_no = parseInt(season_no);
-  if (!isNaN(season_no) && season_no.length > 4) {
+  if (!isNaN(season_no) && season_no.toString().length < 4) {
     const season = yield trakt.getSeason(slug, season_no)
     for (let episode_data in season) {
       episode_data = season[episode_data];
