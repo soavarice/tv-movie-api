@@ -1,4 +1,4 @@
-1.0.4 - Fix all the things! - 13 March 2016
+1.1.1 - Fix all the things! - 13 March 2016
 ==================================================
 
 Info:
@@ -22,7 +22,7 @@ Features:
    - Error: Logs Warnings and Errors to the console and logs any
      occurances to the error log file
 
-1.0.3 - It's getting colorful! - 10 March 2016
+1.1.0 - It's getting colorful! - 10 March 2016
 ==================================================
 
 Features:

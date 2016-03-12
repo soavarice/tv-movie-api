@@ -1,6 +1,6 @@
 {
   "name": "tv-api",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "description": "An objectivly better TV series API.",
   "dependencies": {
     "async-q": "^0.3.1",
