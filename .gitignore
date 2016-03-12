@@ -2,10 +2,8 @@
 ## API Testing
 #################
 
-*.cmd
-*.exe
-data
 tmp
+bin
 
 #################
 ## Node
@@ -30,6 +28,7 @@ npm-debug.log*
 ## Windows
 #################
 
+*.lnk
 Thumbs.db
 ehthumbs.db
 Desktop.ini
