@@ -11,6 +11,7 @@ const config = {
   serverName: require("os").hostname(),
   tempDir: "./tmp",
   errorLog: "tvseries-api.log",
+  logLevel: "info",
   colorOutput: true,
   statusFile: "status.json",
   updatedFile: "lastUpdated.json",
