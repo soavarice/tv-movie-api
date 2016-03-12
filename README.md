@@ -3,7 +3,7 @@ An objectivly better TV series API.
 
 # Installation
 1. Install MongoDB
-2. Install NodeJS (atleast Node v4.0.0 or greater)
+2. Install NodeJS (at least Node v4.0.0 or greater)
 3. install dependencies `cd tv-api` and `npm install`
 4. Start the API with `npm start` or `node --harmony --harmony_destructuring --use_strict index.js`
 
