@@ -7,6 +7,10 @@ An objectivly better TV series API.
 3. install dependencies `cd tv-api` and `npm install`
 4. Start the API with `npm start` or `node --harmony --harmony_destructuring --use_strict index.js`
 
+# Console Output
+![console output](http://i.imgur.com/umHixt5.png)
+(With `info` log level)
+
 # Example output
 
 ```
