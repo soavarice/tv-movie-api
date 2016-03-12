@@ -5,6 +5,7 @@ Info:
  - Required Node.js version is now in the readme
    and in the `package.json`
  - Corrected date in the changelog from last update
+ - Corrected version numbering
 
 Bug fixes:
  - Fixed meta not updating properly
