@@ -1,4 +1,19 @@
-1.0.3 - It's getting colorful! - 9 March 2016
+1.0.4 - Fix all the things! - 13 March 2016
+==================================================
+
+Info:
+ - Required Node.js version is now in the readme
+   and in the `package.json`
+ - Corrected date in the changelog from last update
+ 
+Bug fixes:
+ - Fixed meta not updating properly
+ - Fixed shows with some datebased episodes not
+   being added to the API
+ - Fixed error log containing color codes
+ - Removed old `//TODOs` from the code 
+
+1.0.3 - It's getting colorful! - 10 March 2016
 ==================================================
 
 Features:
@@ -18,9 +33,6 @@ Bug fixes:
 
 1.0.1 - What's trening? - 6 March 2016
 ======================================
-
-Info:
- - Merged pull request: https://github.com/popcorn-official/popcorn-api/pull/1
 
 Bug fixes:
  - Sort by trending
