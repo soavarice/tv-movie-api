@@ -5,7 +5,7 @@ const config = {
   scrapeTime: "0 0 */6 * * *",
   scrapers: {
     "eztv": true,
-	"kat": false
+    "kat": false
   },
   pageSize: 50,
   serverName: require("os").hostname(),
