@@ -10,7 +10,6 @@ const scrapeKAT = () => {
     const kat = require("./providers/kat")(provider.name);
     return util.spawn(kat.search(provider)).then((response) => {
       console.log(provider.name + ": Done.");
-      util.setStatus("Idle");
       return response;
     });
   });
@@ -20,7 +19,6 @@ const scrapeKAT = () => {
 const scrapeEZTV = () => {
   util.setStatus("Scraping " + eztv.name);
   return util.spawn(eztv.search()).then((response) => {
-	config.scrapers.kat ? util.setStatus(eztv.name + ": Done.") : util.setStatus("Idle");
     console.log(eztv.name + ": Done.");
     return response;
   });
@@ -33,7 +31,10 @@ module.exports = {
 	var scrapers = [];
 	if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
 	if(config.scrapers.kat) scrapers.push(scrapeKAT);
+	
+	util.resetTemp();
     util.setlastUpdate();
+	
     if(scrapers.length !== 0) {
 	  async.eachSeries(scrapers, (scraper) => {
         return scraper();

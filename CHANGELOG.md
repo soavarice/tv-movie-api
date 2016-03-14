@@ -6,6 +6,9 @@ Info:
    and in the `package.json`
  - Corrected date in the changelog from last update
  - Corrected version numbering
+ - Removed dependency on `Q`
+ - Replaced `slug` with `imdb` for getting seasonal 
+   metadata from trakt.tv
 
 Bug fixes:
  - Fixed meta not updating properly
@@ -13,6 +16,7 @@ Bug fixes:
    being added to the API
  - Fixed error log containing color codes
  - Removed old TODO messages from the code
+ - Some fixes to prevent `ETIMEDOUT`
  
 Features:
  - Multiple levels of logging has three values (Defaults to 'info')
@@ -22,6 +26,8 @@ Features:
      to the error log file
    - Error: Logs Warnings and Errors to the console and logs any
      occurances to the error log file
+ - Resets the log files on each scrape
+ - Added `repo` to the index
 
 1.1.0 - It's getting colorful! - 10 March 2016
 ==================================================
