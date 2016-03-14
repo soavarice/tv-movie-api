@@ -17,11 +17,15 @@ Bug fixes:
  - Fixed error log containing color codes
  - Removed old TODO messages from the code
  - Some fixes to prevent `ETIMEDOUT`
+ - Fixed index not properly showing `Unknown` for
+   missing values under some circumstances
+ - Use `path.join()` for file paths
  
 Features:
  - Multiple levels of logging has three values (Defaults to 'info')
    set from the `config.js`
-   - Info: Does not log any Errors or Warnings
+   - Info: Does not log any Errors or Warnings to the console but logs
+     any occurances to the error log file
    - Warn: Adds Warnings to the console output and logs any Warnings
      to the error log file
    - Error: Logs Warnings and Errors to the console and logs any

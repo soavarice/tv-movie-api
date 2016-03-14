@@ -32,9 +32,6 @@ module.exports = {
 	if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
 	if(config.scrapers.kat) scrapers.push(scrapeKAT);
 	
-	util.resetTemp();
-    util.setlastUpdate();
-	
     if(scrapers.length !== 0) {
 	  async.eachSeries(scrapers, (scraper) => {
         return scraper();

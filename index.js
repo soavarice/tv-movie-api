@@ -19,9 +19,12 @@ const initCron = () => {
     const job = new CronJob({
       cronTime: config.scrapeTime,
       onTick: () => {
-        scraper.scrape();
+		util.resetTemp(function(){
+		  scraper.scrape();
+		});
       },
       onComplete: () => {
+		util.setlastUpdate();
         utils.setStatus("Idle");
       },
       start: true,
@@ -31,7 +34,9 @@ const initCron = () => {
   } catch (ex) {
     util.onError("Cron pattern not valid");
   }
-  scraper.scrape();
+  util.resetTemp(function(){
+    scraper.scrape();
+  });
 };
 
 if (cluster.isMaster) {

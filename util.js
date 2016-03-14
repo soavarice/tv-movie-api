@@ -1,21 +1,20 @@
 const fs = require("fs"),
+  join = require("path").join,
   colors = require('colors/safe'),
   config = require("./config");
-
-/* Makes the temporary directory. */
-const makeTemp = () => {
-  if (!fs.existsSync(config.tempDir)) {
-    fs.mkdirSync(config.tempDir);
-  }
-};
   
 module.exports = {
 
-  makeTemp: makeTemp,
+  /* Makes the temporary directory. */
+  makeTemp: () => {
+    if (!fs.existsSync(config.tempDir)) {
+      fs.mkdirSync(config.tempDir);
+    }
+  },
 
   /* Error logger function. */
   onError: (errorMessage) => {
-	if(config.logLevel.toLowerCase() != 'info') fs.appendFile(config.tempDir + "/" + config.errorLog, errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+	fs.appendFile(config.tempDir + "/" + config.errorLog, errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
 	if(config.logLevel.toLowerCase() == 'warn') console.warn(config.colorOutput ? colors.yellow(errorMessage) : errorMessage);
 	if(config.logLevel.toLowerCase() == 'error') console.error((config.colorOutput ? (errorMessage.toLowerCase().startsWith('error') ? colors.red(errorMessage) : colors.yellow(errorMessage)) : errorMessage));
     return new Error(errorMessage);
@@ -23,14 +22,14 @@ module.exports = {
 
   /* Updates the 'lastUpdated' file. */
   setlastUpdate: () => {
-    fs.writeFile(config.tempDir + "/" + config.updatedFile, JSON.stringify({
+    fs.writeFile(join(config.tempDir, config.updatedFile), JSON.stringify({
       lastUpdated: Math.floor(new Date().getTime() / 1000)
     }), (err) => {});
   },
 
   /* Updates the 'status' file. */
   setStatus: (status) => {
-    fs.writeFile(config.tempDir + "/" + config.statusFile, JSON.stringify({
+    fs.writeFile(join(config.tempDir, config.statusFile), JSON.stringify({
       "status": status
     }), (err) => {});
   },
@@ -54,17 +53,21 @@ module.exports = {
   },
 
   /* Removes all the files in the temporary directory. */
-  resetTemp: (path = config.tempDir) => {
+  resetTemp: (callback, path = config.tempDir) => {
     const files = fs.readdirSync(path);
     files.forEach((file) => {
-      const stats = fs.statSync(path + "/" + file);
+      const stats = fs.statSync(join(path, file));
       if (stats.isDirectory()) {
         resetTemp(file);
       } else if (stats.isFile()) {
-        fs.unlinkSync(path + "/" + file);
+        fs.unlinkSync(join(path, file));
       }
     });
-    makeTemp();
+	if(typeof callback === 'function'){
+		setTimeout(function(){
+		  callback();
+		}, 10);
+	}
   }
 
 };
