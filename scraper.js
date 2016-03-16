@@ -9,7 +9,7 @@ const scrapeKAT = () => {
     util.setStatus("Scraping " + provider.name);
     const kat = require("./providers/kat")(provider.name);
     return util.spawn(kat.search(provider)).then((response) => {
-      console.log(provider.name + ": Done.");
+      util.log(provider.name + ": Done.");
       return response;
     });
   });
@@ -19,7 +19,7 @@ const scrapeKAT = () => {
 const scrapeEZTV = () => {
   util.setStatus("Scraping " + eztv.name);
   return util.spawn(eztv.search()).then((response) => {
-    console.log(eztv.name + ": Done.");
+    util.log(eztv.name + ": Done.");
     return response;
   });
 };

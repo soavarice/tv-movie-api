@@ -117,7 +117,7 @@ const getAllTorrents = (totalPages, provider) => {
   let katTorrents = [];
   return async.timesSeries(totalPages, (page) => {
     provider.query.page = page + 1;
-    console.log(name + ": Starting searching kat on page " + (config.colorOutput ? colors.cyan(provider.query.page) : provider.query.page) + " of " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));
+    util.log(name + ": Starting searching kat on page " + (config.colorOutput ? colors.cyan(provider.query.page) : provider.query.page) + " of " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));
     return kat.search(provider.query).then((result) => {
       katTorrents = katTorrents.concat(result.results);
     }).catch((err) => {
@@ -125,7 +125,7 @@ const getAllTorrents = (totalPages, provider) => {
       return err;
     });
   }).then((value) => {
-    console.log(name + ": Found " + (config.colorOutput ? colors.cyan(katTorrents.length) : katTorrents.length) + " torrents.");
+    util.log(name + ": Found " + (config.colorOutput ? colors.cyan(katTorrents.length) : katTorrents.length) + " torrents.");
     return katTorrents;
   });
 };
@@ -140,14 +140,14 @@ const KAT = (_name) => {
 
     /* Returns a list of all the inserted torrents. */
     search: function*(provider) {
-      console.log(name + ": Starting scraping...");
+      util.log(name + ": Starting scraping...");
       provider.query.page = 1;
       provider.query.category = "tv";
       provider.query.verified = 1;
       provider.query.adult_filter = 1;
       const getTotalPages = yield kat.search(provider.query);
       const totalPages = getTotalPages.totalPages;
-      console.log(name + ": Total pages " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));
+      util.log(name + ": Total pages " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));
 
       const katTorrents = yield getAllTorrents(totalPages, provider);
       const katShows = yield getAllKATShows(katTorrents);

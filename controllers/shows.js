@@ -272,11 +272,57 @@ module.exports = {
   
   /* Get all shows with ids, returns an array with each show as an object */
   getSelection: (req, res) => {
-    return Show.find({
+    let query = {
       imdb_id:{ 
-		$in: req.params.ids.split(',')
-	  }
-    }).exec().then((docs) => {
+        $in: req.params.ids.split(',')
+      }
+    };
+    const data = req.query;
+	
+	if (!data.order) data.order = -1;
+    let sort = {
+      "rating.votes": data.order,
+      "rating.percentage": data.order,
+      "rating.watching": data.order
+    };
+	if (data.sort) {
+      if (data.sort === "year") sort = {
+        year: data.order
+      };
+      if (data.sort === "updated") sort = {
+        "episodes.first_aired": data.order
+      };
+      if (data.sort === "name") sort = {
+        title: (data.order * -1)
+      };
+      if (data.sort == "rating") sort = {
+        "rating.percentage": data.order
+      };
+      if (data.sort == "trending") sort = {
+        "rating.watching": data.order
+      };
+    }
+	if (data.genre && data.genre != "All") {
+      query = {
+        genres: data.genre.toLowerCase(),
+        imdb_id:{ 
+          $in: req.params.ids.split(',')
+        }
+      }
+    }
+	
+	return Show.find(query, {
+        _id: 1,
+        imdb_id: 1,
+        tvdb_id: 1,
+        title: 1,
+        year: 1,
+        images: 1,
+        slug: 1,
+        num_seasons: 1,
+        last_updated: 1,
+        rating: 1
+    }).sort(sort).exec().then((docs) => {
       return res.json(docs);
     }).catch((err) => {
       util.onError(err);

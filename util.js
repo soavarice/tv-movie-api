@@ -12,11 +12,37 @@ module.exports = {
     }
   },
 
+  /* Logger function. */
+  log: (logMessage) => {
+    if(config.logs.info.output.console == true){
+      console.info(logMessage);
+    }
+    if(config.logs.error.output.log == true){
+      fs.appendFile(join(config.tempDir, config.logs.error.file), logMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+    }
+  },
+  
   /* Error logger function. */
   onError: (errorMessage) => {
-	fs.appendFile(config.tempDir + "/" + config.errorLog, errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
-	if(config.logLevel.toLowerCase() == 'warn') console.warn(config.colorOutput ? colors.yellow(errorMessage) : errorMessage);
-	if(config.logLevel.toLowerCase() == 'error') console.error((config.colorOutput ? (errorMessage.toLowerCase().startsWith('error') ? colors.red(errorMessage) : colors.yellow(errorMessage)) : errorMessage));
+	if(errorMessage.toLowerCase().startsWith('error')){
+      if(config.logs.error.output.console == true){
+        console.error((config.colorOutput ? colors.red(errorMessage) : errorMessage));
+      }
+      if(config.logs.error.output.log == true){
+        fs.appendFile(join(config.tempDir, config.logs.error.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+      }
+	} else {
+	  if(config.logs.warning.output.console == true){
+        if(!errorMessage.toLowerCase().startsWith('error'))	{
+          console.warn(config.colorOutput ? colors.yellow(errorMessage) : errorMessage);
+        }
+      }
+      if(config.logs.warning.output.log == true){
+        if(!errorMessage.toLowerCase().startsWith('error'))	{
+          fs.appendFile(join(config.tempDir, config.logs.warning.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+        }
+      }
+	}
     return new Error(errorMessage);
   },
 

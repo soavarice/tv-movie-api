@@ -32,9 +32,9 @@ const EZTV = (_name) => {
 
     /* Returns a list of all the inserted torrents. */
     search: function*() {
-      console.log(name + ": Starting scraping...");
+      util.log(name + ": Starting scraping...");
       const eztvShows = yield eztv.getAllShows();
-      console.log(name + ": Found " + (config.colorOutput ? colors.cyan(eztvShows.length) : eztvShows.length) + " shows.");
+      util.log(name + ": Found " + (config.colorOutput ? colors.cyan(eztvShows.length) : eztvShows.length) + " shows.");
       return yield async.mapLimit(eztvShows, config.maxWebRequest, (eztvShow) => {
         return util.spawn(getShow(eztvShow)).catch((err) => {
           util.onError(err);

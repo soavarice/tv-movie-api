@@ -1,4 +1,4 @@
-1.1.1-2 - Fix all the things! - 13 March 2016
+1.1.1-3 - Fix all the things! - 13 March 2016
 ==================================================
 
 Info:
@@ -26,14 +26,9 @@ Bug fixes:
    - Fixed API not setting the last updated time correctly
  
 Features:
- - Multiple levels of logging has three values 
-   (Defaults to 'info') set from the `config.js`
-   - Info: Does not log any Errors or Warnings to the 
-     console but logs any occurances to the error log file
-   - Warn: Adds Warnings to the console output and logs any
-     Warnings to the error log file
-   - Error: Logs Warnings and Errors to the console and 
-     logs any occurances to the error log file
+ - Logging can be configured to output to the console,  
+   log files, both or to not output at all, set from 
+   the `config.js`
  - Resets the log files on each scrape
  - Added `repo` to the index
 

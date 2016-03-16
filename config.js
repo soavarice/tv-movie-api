@@ -10,8 +10,36 @@ const config = {
   pageSize: 50,
   serverName: require("os").hostname(),
   tempDir: "./tmp",
-  errorLog: "tv-api.log",
-  logLevel: "info",
+  logs: {
+	"info": {
+        "file": "tv-api.log",
+        "output": {
+          "console": true,
+          "log": false
+        }
+    },
+    "warning": {
+        "file": "tv-api-warning.log",
+        "output": {
+          "console": false,
+          "log": true
+        }
+    },
+    "error": {
+      "file": "tv-api-error.log",
+      "output": {
+        "console": false,
+        "log": true
+      }
+    },
+    "request": {
+      "file": "tv-api-request.log",
+      "output": {
+        "console": false,
+        "log": true
+      }
+    }
+  },
   colorOutput: true,
   statusFile: "status.json",
   updatedFile: "lastUpdated.json",

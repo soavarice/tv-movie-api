@@ -30,7 +30,7 @@ const initCron = () => {
       start: true,
       timeZone: "America/Los_Angeles"
     });
-    console.log("Cron job started");
+    util.log("Cron job started");
   } catch (ex) {
     util.onError("Cron pattern not valid");
   }

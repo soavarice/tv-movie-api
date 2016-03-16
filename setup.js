@@ -1,24 +1,26 @@
-const bodyParser = require("body-parser"),
+const fs = require("fs"),
+  join = require("path").join,
+  bodyParser = require("body-parser"),
   compress = require("compression"),
   express = require("express"),
-  join = require("path").join,
   logger = require("morgan"),
   responseTime = require("response-time"),
+  colors = require('colors/safe'),
   config = require("./config");
 
 const mongoose = require("mongoose");
-mongoose.Promise = require("q").Promise;
+mongoose.Promise = global.Promise;
 
 RegExp.escape = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-mongoose.connect("mongodb://" + config.dbHosts.join(",") + "/popcorn_shows", {
+mongoose.connect("mongodb://" + config.dbHosts.join(",") + "/tv_shows", {
   db: {
     native_parser: true
   },
   replset: {
-    rs_name: "pt0",
+    rs_name: "ts0",
     connectWithNoPrimary: true,
     readPreference: "nearest",
     strategy: "ping",
@@ -46,5 +48,17 @@ module.exports = (config, app) => {
     memLevel: 3
   }));
   app.use(responseTime());
-  app.use(logger("short"));
+  app.use(logger(':remote-addr :method :url - :response-time ms', {
+	  stream: {
+        write: function(msg){
+		  msg = msg.split(' - ');
+		  if(config.logs.request.output.console == true){
+            console.log('API:', (config.colorOutput ? (msg[0] + ' - ' + colors.cyan(msg[1])) : (msg[0] + ' - ' + msg[1])));
+          }
+          if(config.logs.request.output.log == true){
+            fs.appendFile(join(config.tempDir, config.logs.request.file), (msg[0] + ' - ' + msg[1]));
+          }
+        }
+      }
+  }));
 };

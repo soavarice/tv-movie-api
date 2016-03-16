@@ -12,7 +12,7 @@ const updateEpisodes = function*(doc) {
     _id: doc._id
   }).exec();
   if (found) {
-    console.log(name + ": '" + (config.colorOutput ? colors.cyan(found.title) : found.title) + "' is an existing show.");
+    util.log(name + ": '" + (config.colorOutput ? colors.cyan(found.title) : found.title) + "' is an existing show.");
     for (let i = 0; i < found.episodes.length; i++) {
       let matching = doc.episodes.filter((docEpisode) => {
         return docEpisode.season === found.episodes[i].season && docEpisode.episode === found.episodes[i].episode;
@@ -45,7 +45,7 @@ const updateEpisodes = function*(doc) {
     saved.num_seasons = distinct.length;
     return saved.save();
   } else {
-    console.log(name + ": '" + (config.colorOutput ? colors.cyan(doc.title) : doc.title) + "' is a new show!");
+    util.log(name + ": '" + (config.colorOutput ? colors.cyan(doc.title) : doc.title) + "' is a new show!");
     return yield new Show(doc).save();
   }
 };
