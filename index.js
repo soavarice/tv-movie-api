@@ -20,11 +20,11 @@ const initCron = () => {
       cronTime: config.scrapeTime,
       onTick: () => {
 		util.resetTemp(function(){
+		  util.setlastUpdate();
 		  scraper.scrape();
 		});
       },
       onComplete: () => {
-		util.setlastUpdate();
         utils.setStatus("Idle");
       },
       start: true,
@@ -35,6 +35,7 @@ const initCron = () => {
     util.onError("Cron pattern not valid");
   }
   util.resetTemp(function(){
+    util.setlastUpdate();
     scraper.scrape();
   });
 };

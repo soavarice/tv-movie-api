@@ -1,4 +1,4 @@
-1.1.1 - Fix all the things! - 13 March 2016
+1.1.1-2 - Fix all the things! - 13 March 2016
 ==================================================
 
 Info:
@@ -20,16 +20,20 @@ Bug fixes:
  - Fixed index not properly showing `Unknown` for
    missing values under some circumstances
  - Use `path.join()` for file paths
+ - Fix `shows\last_updated` not returning the last updated
+   shows
+ - Fixed new bugs introduced during 1.1.1
+   - Fixed API not setting the last updated time correctly
  
 Features:
- - Multiple levels of logging has three values (Defaults to 'info')
-   set from the `config.js`
-   - Info: Does not log any Errors or Warnings to the console but logs
-     any occurances to the error log file
-   - Warn: Adds Warnings to the console output and logs any Warnings
-     to the error log file
-   - Error: Logs Warnings and Errors to the console and logs any
-     occurances to the error log file
+ - Multiple levels of logging has three values 
+   (Defaults to 'info') set from the `config.js`
+   - Info: Does not log any Errors or Warnings to the 
+     console but logs any occurances to the error log file
+   - Warn: Adds Warnings to the console output and logs any
+     Warnings to the error log file
+   - Error: Logs Warnings and Errors to the console and 
+     logs any occurances to the error log file
  - Resets the log files on each scrape
  - Added `repo` to the index
 
