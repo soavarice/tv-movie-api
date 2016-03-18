@@ -15,12 +15,12 @@ RegExp.escape = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-mongoose.connect("mongodb://" + config.dbHosts.join(",") + "/tv_shows", {
+mongoose.connect("mongodb://" + config.dbHosts.join(",") + "/tv_movie", {
   db: {
     native_parser: true
   },
   replset: {
-    rs_name: "ts0",
+    rs_name: "tm0",
     connectWithNoPrimary: true,
     readPreference: "nearest",
     strategy: "ping",

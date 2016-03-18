@@ -1,9 +1,9 @@
 const async = require("async-q"),
-  Show = require("../models/Show"),
-  trakt = require("../lib/trakt"),
-  config = require("../config"),
+  Show = require("../../models/Show"),
+  trakt = require("../../lib/trakt"),
+  config = require("../../config"),
   colors = require("colors/safe"),
-  util = require("../util");
+  util = require("../../util");
 let name;
 
 /* Update a given show (doc) with it's associated episodes. */
@@ -124,9 +124,9 @@ const Helper = (_name) => {
           num_seasons: 0,
           last_updated: Number(new Date()),
           images: {
-            fanart: traktShow.images.fanart.full != null ? traktShow.images.fanart.full : "app://host/img/placeholder.png",
-            poster: traktShow.images.poster.full != null ? traktShow.images.poster.full : "app://host/img/placeholder_fanart.png",
-            banner: traktShow.images.banner.full != null ? traktShow.images.banner.full : "app://host/img/placeholder_banner.png"
+            fanart: traktShow.images.fanart.full != null ? traktShow.images.fanart.full : "/img/placeholder.png",
+            poster: traktShow.images.poster.full != null ? traktShow.images.poster.full : "/img/placeholder_fanart.png",
+            banner: traktShow.images.banner.full != null ? traktShow.images.banner.full : "/img/placeholder_banner.png"
           },
           genres: traktShow.genres.length != 0 ? traktShow.genres : ["Unknown"],
           episodes: []

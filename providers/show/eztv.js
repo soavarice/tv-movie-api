@@ -1,8 +1,8 @@
 const async = require("async-q"),
-  eztv = require("../lib/eztv"),
-  config = require("../config"),
+  eztv = require("../../lib/eztv"),
+  config = require("../../config"),
   colors = require("colors/safe"),
-  util = require("../util");
+  util = require("../../util");
 let helper;
 
 /* Get a complete show. */

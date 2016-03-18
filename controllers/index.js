@@ -1,6 +1,7 @@
 const fs = require("fs"),
   join = require("path").join,
   config = require("../config"),
+  Movie = require("../models/Movie"),
   Show = require("../models/Show"),
   util = require("../util");
   
@@ -23,11 +24,11 @@ const displayFile = (req, res, path, file) => {
 module.exports = {
 
   /* Display server info. */
-  getIndex: (req, res) => {
+  getIndex: function*(req, res) {
     let lastUpdatedJSON;
     try{ lastUpdatedJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.updatedFile), "utf8")); }
     catch (e) { lastUpdatedJSON = { "lastUpdated": "Unknown" } }
-	let updateTimeJSON;
+    let updateTimeJSON;
     try{ updateTimeJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.updateTimeFile), "utf8")); }
     catch (e) { updateTimeJSON = { "lastUpdate": "Unknown" } }
     let packageJSON;
@@ -37,24 +38,34 @@ module.exports = {
     try{ statusJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.statusFile), "utf8")); }
     catch (e) { statusJSON = { "status": "Idle" } }
     
-    return Show.count({}).then((count) => {
-      let serverInfo = {
-        server: config.serverName,
-        status: statusJSON.status,
-        totalShows: count,
-        updated: lastUpdatedJSON.lastUpdated,
-		updateTook: updateTimeJSON.lastUpdate,
-        uptime: process.uptime() | 0,
-        version: packageJSON.version,
-        repo: packageJSON.repository.url,
-      };
-
-      if(config.logs.info.output.log || config.logs.warning.output.log || config.logs.error.output.log) serverInfo.logs = {};
-	  if(config.logs.info.output.log) serverInfo.logs.info = "/logs/info";
-      if(config.logs.warning.output.log) serverInfo.logs.warning = "/logs/warning";
-      if(config.logs.error.output.log) serverInfo.logs.error = "/logs/error";
-
-      return res.json(serverInfo);
+    return Show.count({
+      num_seasons: {
+        $gt: 0
+      }
+    }).then((showCount) => {
+      return Movie.count({}).exec().then((movieCount) => {
+        let serverInfo = {
+          server: config.serverName,
+          status: statusJSON.status,
+          totalMovies: movieCount,
+          totalShows: showCount,
+          updated: lastUpdatedJSON.lastUpdated,
+          updateTook: updateTimeJSON.lastUpdate,
+          uptime: process.uptime() | 0,
+          version: packageJSON.version,
+          repo: packageJSON.repository.url,
+        };
+    
+        if(config.logs.info.output.log || config.logs.warning.output.log || config.logs.error.output.log) serverInfo.logs = {};
+        if(config.logs.info.output.log) serverInfo.logs.info = "/logs/info";
+        if(config.logs.warning.output.log) serverInfo.logs.warning = "/logs/warning";
+        if(config.logs.error.output.log) serverInfo.logs.error = "/logs/error";
+    
+        return res.json(serverInfo);
+      }).catch((err) => {
+        util.onError(err);
+        return res.json(err);
+      });
     }).catch((err) => {
       util.onError(err);
       return res.json(err);

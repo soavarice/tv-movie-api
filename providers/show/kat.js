@@ -1,11 +1,11 @@
 const async = require("async-q"),
-  config = require("../config"),
+  config = require("../../config"),
   colors = require("colors/safe"),
-  kat = require("../lib/kat"),
-  util = require("../util");
+  kat = require("../../lib/kat"),
+  util = require("../../util");
 let helper, name;
 
-/* Get all the shows competable with Popcorn Time. */
+/* Get all the shows competable */
 const getShow = function*(katShow) {
   const newShow = yield util.spawn(helper.getTraktInfo(katShow.slug));
   if (typeof(newShow) != "undefined" && newShow._id) {

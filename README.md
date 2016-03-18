@@ -1,5 +1,5 @@
-# TV Series API
-An objectivly better TV series API.
+# TV Movie API
+An objectivly better TV Series and Movie API.
 
 # Installation
 1. Install MongoDB `3.2+`

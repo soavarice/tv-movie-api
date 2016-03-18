@@ -1,16 +1,15 @@
 const config = require("../config.js"),
-  Show = require("../models/Show"),
+  Movie = require("../models/Movie"),
   util = require("../util");
 
 const projection = {
   _id: 1,
   imdb_id: 1,
-  tvdb_id: 1,
   title: 1,
   year: 1,
   images: 1,
   slug: 1,
-  num_seasons: 1,
+  released: 1,
   last_updated: 1,
   rating: 1
 };
@@ -18,8 +17,8 @@ const projection = {
 module.exports = {
 
   /* Get all the pages. */
-  getShows: (req, res) => {
-    return Show.count({
+  getMovies: (req, res) => {
+    return Movie.count({
       num_seasons: {
         $gt: 0
       }
@@ -28,9 +27,9 @@ module.exports = {
       const docs = [];
 
       for (let i = 1; i < pages + 1; i++){
-        docs.push("shows/" + i);
+        docs.push("movies/" + i);
       }
-      
+
       return res.json(docs);
     }).catch((err) => {
       util.onError(err);
@@ -44,14 +43,8 @@ module.exports = {
     const offset = page * config.pageSize;
 
     if (req.params.page === "all") {
-      return Show.aggregate([{
+      return Movie.aggregate([{
         $project: projection
-      }, {
-        $match: {
-          num_seasons: {
-            $gt: 0
-          }
-        }
       }, {
         $sort: {
           title: -1
@@ -63,16 +56,11 @@ module.exports = {
         return res.json(err);
       });
     } else {
-      let query = {
-        num_seasons: {
-          $gt: 0
-        }
-      };
+      let query = {};
       const data = req.query;
 
-      if (!data.order){
+      if (!data.order)
         data.order = -1;
-      }
 
       let sort = {
         "rating.votes": parseInt(data.order, 10),
@@ -103,34 +91,31 @@ module.exports = {
           year: parseInt(data.order, 10)
         };
         if (data.sort === "updated") sort = {
-          "episodes.first_aired": parseInt(data.order, 10)
+          "released": parseInt(data.order, 10)
         };
         if (data.sort === "name") sort = {
           title: (parseInt(data.order, 10) * -1)
         };
         if (data.sort == "rating") sort = {
-          "rating.percentage": parseInt(data.order, 10)
+          "rating.percentage": parseInt(data.order, 10),
         };
         if (data.sort == "trending") sort = {
-          "rating.watching": parseInt(data.order, 10)
+          "rating.watching": parseInt(data.order, 10),
         };
       }
 
       if (data.genre && data.genre != "All") {
         query = {
-          genres: data.genre.toLowerCase(),
-          num_seasons: {
-            $gt: 0
-          }
+          genres: data.genre.toLowerCase()
         }
       }
 
-      return Show.aggregate([{
-        $project: projection
-      }, {
+      return Movie.aggregate([{
         $match: query
       }, {
         $sort: sort
+      }, {
+        $project: projection
       }, {
         $skip: offset
       }, {
@@ -144,12 +129,11 @@ module.exports = {
     }
   },
 
-  /* Get info from one show. */
-  getShow: (req, res) => {
-    return Show.find({
-      imdb_id: req.params.id
-    }).limit(1).exec().then((docs) => {
-      if (Array.isArray(docs)) docs = docs[0];
+  /* Get info from one movie. */
+  getMovie: (req, res) => {
+    return Movie.findOne({
+      _id: req.params.id
+    }).exec().then((docs) => {
       return res.json(docs);
     }).catch((err) => {
       util.onError(err);
@@ -157,8 +141,8 @@ module.exports = {
     });
   },
 
-  /* Get all shows with ids, returns an array with each show as an object */
-  getShowGroup: (req, res) => {
+  /* Get all shows with ids, returns an array with each movie as an object */
+  getMovieGroup: (req, res) => {
     const data = req.query;
 
     if (!data.order) {
@@ -189,7 +173,7 @@ module.exports = {
       };
     }
 
-    return Show.aggregate([
+    return Movie.aggregate([
     {
       $match: {
         imdb_id:{
@@ -211,6 +195,6 @@ module.exports = {
       util.onError(err); 
       return res.json(err);
     });
-  }
+  }  
 
 };

@@ -1,4 +1,16 @@
-1.1.1-4 - Fix all the things! - 18 March 2016
+1.1.2-1 - Grab the popcorn? - 19 March 2016
+==================================================
+
+Info:
+ - Changed name to TV Movie API
+ 
+Bug fixes:
+ - 
+
+Features:
+ - Added Movies to the API
+
+1.1.1 - Fix all the things! - 18 March 2016
 ==================================================
 
 Info:
