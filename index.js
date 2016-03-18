@@ -19,10 +19,10 @@ const initCron = () => {
     const job = new CronJob({
       cronTime: config.scrapeTime,
       onTick: () => {
-		util.resetTemp(function(){
-		  util.setlastUpdate();
-		  scraper.scrape();
-		});
+        util.resetTemp(function(){
+          util.setlastUpdate();
+          scraper.scrape();
+        });
       },
       onComplete: () => {
         utils.setStatus("Idle");

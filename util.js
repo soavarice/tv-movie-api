@@ -14,8 +14,8 @@ module.exports = {
 
   /* Logger function. */
   log: (logMessage) => {
-	let date = new Date();
-	let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
+    let date = new Date();
+    let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
     if(config.logs.info.output.console == true){
       console.info(logMessage);
     }
@@ -26,27 +26,27 @@ module.exports = {
   
   /* Error logger function. */
   onError: (errorMessage) => {
-	let date = new Date();
-	let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
-	if(errorMessage.toLowerCase().startsWith('error')){
+    let date = new Date();
+    let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
+    if(errorMessage.toLowerCase().startsWith('error')){
       if(config.logs.error.output.console == true){
         console.error((config.colorOutput ? colors.red(errorMessage) : errorMessage));
       }
       if(config.logs.error.output.log == true){
         fs.appendFile(join(config.tempDir, config.logs.error.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
       }
-	} else {
-	  if(config.logs.warning.output.console == true){
-        if(!errorMessage.toLowerCase().startsWith('error'))	{
+    } else {
+      if(config.logs.warning.output.console == true){
+        if(!errorMessage.toLowerCase().startsWith('error'))    {
           console.warn(config.colorOutput ? colors.yellow(errorMessage) : errorMessage);
         }
       }
       if(config.logs.warning.output.log == true){
-        if(!errorMessage.toLowerCase().startsWith('error'))	{
+        if(!errorMessage.toLowerCase().startsWith('error'))    {
           fs.appendFile(join(config.tempDir, config.logs.warning.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
         }
       }
-	}
+    }
     return new Error(errorMessage);
   },
 
@@ -70,7 +70,7 @@ module.exports = {
       let onResult = (lastPromiseResult) => {
         let {
           value, 
-		  done
+          done
         } = generator.next(lastPromiseResult);
         if (!done) {
           value.then(onResult, reject)
@@ -93,11 +93,11 @@ module.exports = {
         fs.unlinkSync(join(path, file));
       }
     });
-	if(typeof callback === 'function'){
-		setTimeout(function(){
-		  callback();
-		}, 10);
-	}
+    if(typeof callback === 'function'){
+        setTimeout(function(){
+          callback();
+        }, 10);
+    }
   }
 
 };

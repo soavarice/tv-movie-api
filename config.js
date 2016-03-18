@@ -11,7 +11,7 @@ const config = {
   serverName: require("os").hostname(),
   tempDir: "./tmp",
   logs: {
-	"info": {
+    "info": {
         "file": "tv-api.log",
         "output": {
           "console": true,

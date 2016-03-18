@@ -4,6 +4,7 @@ const controllers = require("./controllers/load.js");
 module.exports = (app) => {
   app.get("/", controllers.index.getIndex);
   
+  app.get("/logs", controllers.index.getLogs);
   app.get("/logs/info", controllers.index.getInfoLog);
   app.get("/logs/warning", controllers.index.getWarningLog);
   app.get("/logs/error", controllers.index.getErrorLog);

@@ -28,23 +28,23 @@ module.exports = {
 
   /* Initiate the scraping. */
   scrape: () => {
-	var scrapers = [];
-	if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
-	if(config.scrapers.kat) scrapers.push(scrapeKAT);
-	
+    var scrapers = [];
+    if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
+    if(config.scrapers.kat) scrapers.push(scrapeKAT);
+    
     if(scrapers.length !== 0) {
-	  async.eachSeries(scrapers, (scraper) => {
+      async.eachSeries(scrapers, (scraper) => {
         return scraper();
-	  }).then((value) => {
+      }).then((value) => {
         return util.setStatus("Idle");
       }).catch((err) => {
         util.onError("Error while scraping: " + err);
         return err;
       }).done();
-	} else {
-	  util.onError("Error while scraping: No scrapers enabled");
+    } else {
+      util.onError("Error while scraping: No scrapers enabled");
       return "No scrapers enabled";
-	}
+    }
   }
 
 };

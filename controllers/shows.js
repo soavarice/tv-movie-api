@@ -30,7 +30,7 @@ module.exports = {
       for (let i = 1; i < pages + 1; i++){
         docs.push("shows/" + i);
       }
-	  
+      
       return res.json(docs);
     }).catch((err) => {
       util.onError(err);
@@ -72,7 +72,7 @@ module.exports = {
 
       if (!data.order){
         data.order = -1;
-	  }
+      }
 
       let sort = {
         "rating.votes": parseInt(data.order, 10),
@@ -92,7 +92,7 @@ module.exports = {
         }
         query = {
           title: new RegExp(regex, "gi"),
-		  num_seasons: {
+          num_seasons: {
             $gt: 0
           }
         };
@@ -119,7 +119,7 @@ module.exports = {
       if (data.genre && data.genre != "All") {
         query = {
           genres: data.genre.toLowerCase(),
-		  num_seasons: {
+          num_seasons: {
             $gt: 0
           }
         }
@@ -164,8 +164,8 @@ module.exports = {
     if (!data.order) {
       data.order = -1;
     };
-	
-	let sort = {
+    
+    let sort = {
       "rating.votes": data.order,
       "rating.percentage": data.order,
       "rating.watching": data.order
@@ -189,16 +189,16 @@ module.exports = {
       };
     }
 
-	return Show.aggregate([
-	{
+    return Show.aggregate([
+    {
       $match: {
-		imdb_id:{
-		  $in: req.params.ids.split(','),
-		  num_seasons: {
+        imdb_id:{
+          $in: req.params.ids.split(','),
+          num_seasons: {
             $gt: 0
           }
-	    }
-	  }
+        }
+      }
     }, {
       $project: projection
     }, {
