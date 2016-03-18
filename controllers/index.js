@@ -3,7 +3,23 @@ const fs = require("fs"),
   config = require("../config"),
   Show = require("../models/Show"),
   util = require("../util");
-
+  
+/* Displays a given file. */
+const displayFile = (req, res, path, file) => {
+  if (fs.existsSync(join(path, file))) {
+    return res.sendFile(file, {
+      root: path,
+      headers: {
+        "Content-Type": "text/plain; charset=UTF-8"
+      }
+    })
+  } else {
+    return res.json({
+      error: "Could not find file: '" + join(path, file) + "'"
+    })
+  }
+};
+  
 module.exports = {
 
   /* Display server info. */
@@ -20,18 +36,33 @@ module.exports = {
 	
     return Show.count({}).then((count) => {
       return res.json({
-		repo: packageJSON.repository.url,
         server: config.serverName,
         status: statusJSON.status,
         totalShows: count,
         updated: lastUpdatedJSON.lastUpdated,
         uptime: process.uptime() | 0,
-        version: packageJSON.version
+        version: packageJSON.version,
+		repo: packageJSON.repository.url
       });
     }).catch((err) => {
       util.onError(err);
       return res.json(err);
     });
+  },
+ 
+  /* Displays the 'tv-api-warning.log' file. */
+  getInfoLog: (req, res) => {
+    return displayFile(req, res, config.tempDir, config.logs.info.file);
+  },
+ 
+  /* Displays the 'tv-api-warning.log' file. */
+  getWarningLog: (req, res) => {
+    return displayFile(req, res, config.tempDir, config.logs.warning.file);
+  },
+  
+  /* Displays the 'tv-api-error.log' file. */
+  getErrorLog: (req, res) => {
+    return displayFile(req, res, config.tempDir, config.logs.error.file);
   }
 
 };

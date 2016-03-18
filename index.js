@@ -46,7 +46,7 @@ if (cluster.isMaster) {
   }
 
   util.makeTemp();
-  util.setStatus("Starting up");
+  util.setStatus("Idle");
   
   cluster.on("exit", (worker, code, signal) => {
     util.onError("Worker '" + worker.process.pid + "' died, spinning up another!");

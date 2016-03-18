@@ -14,22 +14,26 @@ module.exports = {
 
   /* Logger function. */
   log: (logMessage) => {
+	let date = new Date();
+	let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
     if(config.logs.info.output.console == true){
       console.info(logMessage);
     }
-    if(config.logs.error.output.log == true){
-      fs.appendFile(join(config.tempDir, config.logs.error.file), logMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+    if(config.logs.info.output.log == true){
+      fs.appendFile(join(config.tempDir, config.logs.info.file), '[' + time + '] ' + logMessage.replace(/\x1B\[\d+m/g, '') + "\n");
     }
   },
   
   /* Error logger function. */
   onError: (errorMessage) => {
+	let date = new Date();
+	let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
 	if(errorMessage.toLowerCase().startsWith('error')){
       if(config.logs.error.output.console == true){
         console.error((config.colorOutput ? colors.red(errorMessage) : errorMessage));
       }
       if(config.logs.error.output.log == true){
-        fs.appendFile(join(config.tempDir, config.logs.error.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+        fs.appendFile(join(config.tempDir, config.logs.error.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
       }
 	} else {
 	  if(config.logs.warning.output.console == true){
@@ -39,7 +43,7 @@ module.exports = {
       }
       if(config.logs.warning.output.log == true){
         if(!errorMessage.toLowerCase().startsWith('error'))	{
-          fs.appendFile(join(config.tempDir, config.logs.warning.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+          fs.appendFile(join(config.tempDir, config.logs.warning.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
         }
       }
 	}

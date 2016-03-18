@@ -35,6 +35,8 @@ module.exports = {
     if(scrapers.length !== 0) {
 	  async.eachSeries(scrapers, (scraper) => {
         return scraper();
+	  }).then((value) => {
+        return util.setStatus("Idle");
       }).catch((err) => {
         util.onError("Error while scraping: " + err);
         return err;
