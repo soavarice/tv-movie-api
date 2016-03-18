@@ -24,13 +24,16 @@ module.exports = {
 
   /* Display server info. */
   getIndex: (req, res) => {
-    var lastUpdatedJSON;
+    let lastUpdatedJSON;
     try{ lastUpdatedJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.updatedFile), "utf8")); }
     catch (e) { lastUpdatedJSON = { "lastUpdated": "Unknown" } }
-    var packageJSON;
+	let updateTimeJSON;
+    try{ updateTimeJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.updateTimeFile), "utf8")); }
+    catch (e) { updateTimeJSON = { "lastUpdate": "Unknown" } }
+    let packageJSON;
     try{ packageJSON = JSON.parse(fs.readFileSync("package.json", "utf8")); }
     catch (e) { packageJSON = { "version": "Unknown" } }
-    var statusJSON;
+    let statusJSON;
     try{ statusJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.statusFile), "utf8")); }
     catch (e) { statusJSON = { "status": "Idle" } }
     
@@ -40,6 +43,7 @@ module.exports = {
         status: statusJSON.status,
         totalShows: count,
         updated: lastUpdatedJSON.lastUpdated,
+		updateTook: updateTimeJSON.lastUpdate,
         uptime: process.uptime() | 0,
         version: packageJSON.version,
         repo: packageJSON.repository.url,

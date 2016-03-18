@@ -28,7 +28,8 @@ module.exports = {
 
   /* Initiate the scraping. */
   scrape: () => {
-    var scrapers = [];
+	let start_time = new Date();
+    let scrapers = [];
     if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
     if(config.scrapers.kat) scrapers.push(scrapeKAT);
     
@@ -40,7 +41,9 @@ module.exports = {
       }).catch((err) => {
         util.onError("Error while scraping: " + err);
         return err;
-      }).done();
+      }).done(() => {
+		util.setUpdateTime(start_time, new Date());
+	  });
     } else {
       util.onError("Error while scraping: No scrapers enabled");
       return "No scrapers enabled";

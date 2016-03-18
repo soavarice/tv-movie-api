@@ -43,6 +43,7 @@ const config = {
   colorOutput: true,
   statusFile: "status.json",
   updatedFile: "lastUpdated.json",
+  updateTimeFile: "updateTime.json",
   dbHosts: [ "localhost" ],
   maxWebRequest: 2,
   webRequestTimeout: 4,
