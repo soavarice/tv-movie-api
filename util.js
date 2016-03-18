@@ -69,7 +69,7 @@ module.exports = {
     delta -= minutes * 60;
     let seconds = Math.floor(delta % 60);
     fs.writeFile(join(config.tempDir, config.updateTimeFile), JSON.stringify({
-      lastUpdate: "\"" + (hours + "h " + minutes + "m " + seconds + "s")
+      lastUpdate: ("" + hours + "h " + minutes + "m " + seconds + "s")
     }), (err) => {});
   },
 
