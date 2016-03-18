@@ -4,13 +4,24 @@ const config = {
   workers: 2,
   scrapeTime: "0 0 */6 * * *",
   scrapers: {
-    "eztv": true,
-    "kat": false
+    "tv": {
+      "eztv": true,
+      "kat": false
+    },
+    "movies": {
+      "kat": true
+    }
   },
   pageSize: 50,
   serverName: require("os").hostname(),
   tempDir: "./tmp",
   logs: {
+    "global": {
+      "showTime": {
+        "console": false,
+        "log": true
+      }
+    },
     "info": {
         "file": "tv-api.log",
         "output": {

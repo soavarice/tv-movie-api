@@ -9,6 +9,8 @@ Bug fixes:
 
 Features:
  - Added Movies to the API
+ - Enable showing of message time for logging, can
+   be set for console, log, none or both
 
 1.1.1 - Fix all the things! - 18 March 2016
 ==================================================

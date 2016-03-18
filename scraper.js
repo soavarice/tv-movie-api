@@ -31,8 +31,8 @@ module.exports = {
   scrape: () => {
 	let start_time = new Date();
     let scrapers = [];
-    if(config.scrapers.eztv) scrapers.push(scrapeEZTV);
-    if(config.scrapers.kat) scrapers.push(scrapeKAT);
+    if(config.scrapers.tv.eztv) scrapers.push(scrapeEZTV);
+    if(config.scrapers.tv.kat) scrapers.push(scrapeKAT);
     
     if(scrapers.length !== 0) {
       async.eachSeries(scrapers, (scraper) => {
@@ -43,8 +43,8 @@ module.exports = {
         util.onError("Error while scraping: " + err);
         return err;
       }).done(() => {
-		util.setUpdateTime(start_time, new Date());
-	  });
+        util.setUpdateTime(start_time, new Date());
+      });
     } else {
       util.onError("Error while scraping: No scrapers enabled");
       return "No scrapers enabled";

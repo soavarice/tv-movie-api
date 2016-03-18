@@ -12,10 +12,10 @@ module.exports = (app) => {
   app.get("/show/:id", controllers.shows.getShow);
   app.get("/shows", controllers.shows.getShows);
   app.get("/shows/:page", controllers.shows.getPage);
-  app.get('/shows/select/:ids', controllers.shows.getShowGroup);
+  app.get("/shows/select/:ids", controllers.shows.getShowGroup);
   
-  // app.get("/movie/:id", controllers.movies.getMovie);
-  // app.get("/movies", controllers.movies.getMovies);
-  // app.get("/movies/:page", controllers.movies.getPage);
-  // app.get('/movies/select/:ids', controllers.shows.getMovieGroup);
+  app.get("/movie/:id", controllers.movies.getMovie);
+  app.get("/movies", controllers.movies.getMovies);
+  app.get("/movies/:page", controllers.movies.getPage);
+  app.get("/movies/select/:ids", controllers.movies.getMovieGroup);
 };

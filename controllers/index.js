@@ -24,7 +24,7 @@ const displayFile = (req, res, path, file) => {
 module.exports = {
 
   /* Display server info. */
-  getIndex: function*(req, res) {
+  getIndex: (req, res) => {
     let lastUpdatedJSON;
     try{ lastUpdatedJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.updatedFile), "utf8")); }
     catch (e) { lastUpdatedJSON = { "lastUpdated": "Unknown" } }
@@ -69,7 +69,7 @@ module.exports = {
     }).catch((err) => {
       util.onError(err);
       return res.json(err);
-    });
+    });    
   },
  
   /* Displays possible logs */

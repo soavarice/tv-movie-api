@@ -166,26 +166,26 @@ module.exports = {
     };
     
     let sort = {
-      "rating.votes": data.order,
-      "rating.percentage": data.order,
-      "rating.watching": data.order
+      "rating.votes": parseInt(data.order, 10),
+      "rating.percentage": parseInt(data.order, 10),
+      "rating.watching": parseInt(data.order, 10)
     };
 
     if (data.sort) {
       if (data.sort === "year") sort = {
-        year: data.order
+        year: parseInt(data.order, 10)
       };
       if (data.sort === "updated") sort = {
-        "episodes.first_aired": data.order
-      }
+        "episodes.first_aired": parseInt(data.order, 10)
+      };
       if (data.sort === "name") sort = {
-        title: data.order * -1
+        title: (parseInt(data.order, 10) * -1)
       };
       if (data.sort == "rating") sort = {
-        "rating.percentage": data.order
+        "rating.percentage": parseInt(data.order, 10),
       };
       if (data.sort == "trending") sort = {
-        "rating.watching": data.order
+        "rating.watching": parseInt(data.order, 10),
       };
     }
 
@@ -193,10 +193,10 @@ module.exports = {
     {
       $match: {
         imdb_id:{
-          $in: req.params.ids.split(','),
-          num_seasons: {
-            $gt: 0
-          }
+          $in: req.params.ids.split(',')
+        },
+        num_seasons: {
+          $gt: 0
         }
       }
     }, {
