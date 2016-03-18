@@ -68,8 +68,14 @@ module.exports = {
     let minutes = Math.floor(delta / 60) % 60;
     delta -= minutes * 60;
     let seconds = Math.floor(delta % 60);
+	let updateTime = "";
+
+	if( hours != 0 ) updateTime += hours + "h "
+	if( minutes != 0 ) updateTime += minutes + "m "
+	if( seconds != 0 ) updateTime += seconds + "s"
+
     fs.writeFile(join(config.tempDir, config.updateTimeFile), JSON.stringify({
-      lastUpdate: ("" + hours + "h " + minutes + "m " + seconds + "s")
+      lastUpdate: (updateTime.trim())
     }), (err) => {});
   },
 
