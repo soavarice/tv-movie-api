@@ -70,8 +70,9 @@ module.exports = {
       };
       const data = req.query;
 
-      if (!data.order)
+      if (!data.order){
         data.order = -1;
+	  }
 
       let sort = {
         "rating.votes": parseInt(data.order, 10),
@@ -90,7 +91,10 @@ module.exports = {
           regex += ".+";
         }
         query = {
-          title: new RegExp(regex, "gi")
+          title: new RegExp(regex, "gi"),
+		  num_seasons: {
+            $gt: 0
+          }
         };
       }
 
@@ -114,7 +118,10 @@ module.exports = {
 
       if (data.genre && data.genre != "All") {
         query = {
-          genres: data.genre.toLowerCase()
+          genres: data.genre.toLowerCase(),
+		  num_seasons: {
+            $gt: 0
+          }
         }
       }
 
@@ -186,7 +193,10 @@ module.exports = {
 	{
       $match: {
 		imdb_id:{
-		  $in: req.params.ids.split(',')
+		  $in: req.params.ids.split(','),
+		  num_seasons: {
+            $gt: 0
+          }
 	    }
 	  }
     }, {
