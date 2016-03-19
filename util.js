@@ -15,7 +15,7 @@ module.exports = {
   /* Logger function. */
   log: (logMessage) => {
     let date = new Date();
-    let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
+    let time = ('00' + date.getHours()).slice(-2) + ':' + ('00' + date.getMinutes()).slice(-2) + ':' + ('00' + date.getSeconds()).slice(-2);
     if(config.logs.info.output.console){
       if(config.logs.global.showTime.console){
         console.info('[' + time + '] ' + logMessage);
@@ -35,7 +35,7 @@ module.exports = {
   /* Error logger function. */
   onError: (errorMessage) => {
     let date = new Date();
-    let time = ('0' + date.getHours()).slice(1) + ':' + ('0' + date.getMinutes()).slice(1) + ':' + ('0' + date.getSeconds()).slice(1);
+    let time = ('00' + date.getHours()).slice(-2) + ':' + ('00' + date.getMinutes()).slice(-2) + ':' + ('00' + date.getSeconds()).slice(-2);
     if(errorMessage.toLowerCase().startsWith('error')){
       if(config.logs.error.output.console){
         if(config.logs.global.showTime.console){
