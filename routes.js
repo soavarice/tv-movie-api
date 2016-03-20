@@ -2,6 +2,7 @@ const controllers = require("./controllers/load.js");
 
 /* Express Routing. */
 module.exports = (app) => {
+	
   app.get("/", controllers.index.getIndex);
   
   app.get("/logs", controllers.index.getLogs);
@@ -18,4 +19,5 @@ module.exports = (app) => {
   app.get("/movies", controllers.movies.getMovies);
   app.get("/movies/:page", controllers.movies.getPage);
   app.get("/movies/select/:ids", controllers.movies.getMovieGroup);
+  
 };

@@ -10,7 +10,6 @@ const projection = {
   images: 1,
   slug: 1,
   released: 1,
-  last_updated: 1,
   rating: 1
 };
 
@@ -18,11 +17,7 @@ module.exports = {
 
   /* Get all the pages. */
   getMovies: (req, res) => {
-    return Movie.count({
-      num_seasons: {
-        $gt: 0
-      }
-    }).exec().then((count) => {
+    return Movie.count({}).exec().then((count) => {
       const pages = Math.round(count / config.pageSize);
       const docs = [];
 
@@ -78,42 +73,36 @@ module.exports = {
           }
           regex += ".+";
         }
-        query = {
-          title: new RegExp(regex, "gi"),
-          num_seasons: {
-            $gt: 0
-          }
-        };
+        query.title = new RegExp(regex, "gi");
       }
 
-      if (data.sort) {
-        if (data.sort === "year") sort = {
-          year: parseInt(data.order, 10)
-        };
-        if (data.sort === "updated") sort = {
-          "released": parseInt(data.order, 10)
-        };
-        if (data.sort === "name") sort = {
-          title: (parseInt(data.order, 10) * -1)
-        };
-        if (data.sort == "rating") sort = {
-          "rating.percentage": parseInt(data.order, 10),
-        };
-        if (data.sort == "trending") sort = {
-          "rating.watching": parseInt(data.order, 10),
-        };
-      }
+    if (data.sort) {
+	  if (data.sort === "name") sort = {
+        "title": (parseInt(data.order, 10) * -1)
+      };
+	  if (data.sort == "rating") sort = {
+        "rating.percentage": parseInt(data.order, 10),
+		"rating.votes": parseInt(data.order, 10)
+      };
+	  if (data.sort == "trending") sort = {
+        "rating.watching": parseInt(data.order, 10)
+      };
+	  if (data.sort === "updated") sort = {
+        "released": parseInt(data.order, 10)
+      };
+      if (data.sort === "year") sort = {
+        "year": parseInt(data.order, 10)
+      };      
+    }
 
       if (data.genre && data.genre != "All") {
-        query = {
-          genres: data.genre.toLowerCase()
-        }
+        query.genres = data.genre.toLowerCase();
       }
 
       return Movie.aggregate([{
-        $match: query
-      }, {
         $sort: sort
+      }, {
+        $match: query
       }, {
         $project: projection
       }, {
@@ -156,25 +145,28 @@ module.exports = {
     };
 
     if (data.sort) {
-      if (data.sort === "year") sort = {
-        year: parseInt(data.order, 10)
+	  if (data.sort === "name") sort = {
+        "title": (parseInt(data.order, 10) * -1)
       };
-      if (data.sort === "updated") sort = {
-        "released": parseInt(data.order, 10)
-       };
-      if (data.sort === "name") sort = {
-        title: (parseInt(data.order, 10) * -1)
-      };
-      if (data.sort == "rating") sort = {
+	  if (data.sort == "rating") sort = {
         "rating.percentage": parseInt(data.order, 10),
+		"rating.votes": parseInt(data.order, 10)
       };
-      if (data.sort == "trending") sort = {
-        "rating.watching": parseInt(data.order, 10),
+	  if (data.sort == "trending") sort = {
+        "rating.watching": parseInt(data.order, 10)
       };
+	  if (data.sort === "updated") sort = {
+        "released": parseInt(data.order, 10)
+      };
+      if (data.sort === "year") sort = {
+        "year": parseInt(data.order, 10)
+      };      
     }
 
     return Movie.aggregate([
     {
+      $sort: sort
+    }, {
       $match: {
         imdb_id:{
           $in: req.params.ids.split(',')
@@ -182,8 +174,6 @@ module.exports = {
       }
     }, {
       $project: projection
-    }, {
-      $sort: sort
     }, {
       $limit: config.pageSize
     }]).exec().then((docs) => {

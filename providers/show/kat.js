@@ -145,6 +145,7 @@ const KAT = (_name) => {
       provider.query.category = "tv";
       provider.query.verified = 1;
       provider.query.adult_filter = 1;
+
       const getTotalPages = yield kat.search(provider.query);
       const totalPages = getTotalPages.totalPages;
       util.log(name + ": Total pages " + (config.colorOutput ? colors.cyan(totalPages) : totalPages));

@@ -1,16 +1,19 @@
-const fs = require("fs"),
+const CronJob = require("cron").CronJob,
+  fs = require("fs"),
   join = require("path").join,
   colors = require('colors/safe'),
   config = require("./config");
+
+const makeTemp = () => {
+  if (!fs.existsSync(config.tempDir)) {
+    fs.mkdirSync(config.tempDir);
+  }
+};
   
 module.exports = {
 
   /* Makes the temporary directory. */
-  makeTemp: () => {
-    if (!fs.existsSync(config.tempDir)) {
-      fs.mkdirSync(config.tempDir);
-    }
-  },
+  makeTemp: makeTemp,
 
   /* Logger function. */
   log: (logMessage) => {
@@ -76,15 +79,17 @@ module.exports = {
 
   /* Updates the 'lastUpdated' file. */
   setlastUpdate: () => {
-    fs.writeFile(join(config.tempDir, config.updatedFile), JSON.stringify({
-      lastUpdated: Math.floor(new Date().getTime() / 1000)
-    }), (err) => {});
+    setTimeout(() => {
+      fs.writeFile(join(config.tempDir, config.updatedFile), JSON.stringify({
+        lastUpdated: Math.floor(new Date().getTime() / 1000)
+      }), (err) => {});
+	}, 0);
   },
 
   
   /* Updates the 'updateTime' file. */
   setUpdateTime: (start_time, end_time) => {
-	let delta = Math.abs(end_time - start_time) / 1000;
+    let delta = Math.abs(end_time - start_time) / 1000;
     let days = Math.floor(delta / 86400);
     delta -= days * 86400;
     let hours = Math.floor(delta / 3600) % 24;
@@ -92,25 +97,32 @@ module.exports = {
     let minutes = Math.floor(delta / 60) % 60;
     delta -= minutes * 60;
     let seconds = Math.floor(delta % 60);
-	let updateTime = "";
-
-	if( hours != 0 ) updateTime += hours + "h "
-	if( minutes != 0 ) updateTime += minutes + "m "
-	if( seconds != 0 ) updateTime += seconds + "s"
-
-    fs.writeFile(join(config.tempDir, config.updateTimeFile), JSON.stringify({
-      lastUpdate: (updateTime.trim())
-    }), (err) => {});
+    let updateTime = "";
+    
+    if( hours != 0 ) updateTime += hours + "h "
+    if( minutes != 0 ) updateTime += minutes + "m "
+    if( seconds != 0 ) updateTime += seconds + "s"
+    
+    setTimeout(() => {
+      fs.writeFile(join(config.tempDir, config.updateTimeFile), JSON.stringify({
+        lastUpdate: (updateTime.trim())
+      }), (err) => {});
+    }, 0);
   },
 
   /* Updates the 'status' file. */
   setStatus: (status) => {
-    fs.writeFile(join(config.tempDir, config.statusFile), JSON.stringify({
-      "status": status
-    }), (err) => {});
+	setTimeout(() => {
+      fs.writeFile(join(config.tempDir, config.statusFile), JSON.stringify({
+        "status": status
+      }), (err) => {});
+    }, 0);
   },
 
-  /* Function for resolving generators. */
+  /*
+  * Function for resolving generators.
+  * Method from: https://www.youtube.com/watch?v=lil4YCCXRYc
+  */
   spawn: (generator) => {
     return new Promise((resolve, reject) => {
       let onResult = (lastPromiseResult) => {
@@ -139,11 +151,28 @@ module.exports = {
         fs.unlinkSync(join(path, file));
       }
     });
-    if(typeof callback === 'function'){
-        setTimeout(function(){
-          callback();
-        }, 10);
+    makeTemp();
+  },
+  
+  /* Initiates the cronjob. */
+  initCron: (cronTime, job, doneFunction) => {
+    try {
+      const job = new CronJob({
+        cronTime: cronTime,
+        onTick: () => {
+          job;
+        },
+        onComplete: () => {
+          doneFunction;
+        },
+        start: true,
+        timeZone: "America/Los_Angeles"
+      });
+      console.log("Cron job started");
+    } catch (ex) {
+      util.onError("Cron pattern not valid");
     }
+    job;
   }
 
 };

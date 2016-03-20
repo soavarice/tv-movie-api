@@ -11,7 +11,6 @@ const projection = {
   images: 1,
   slug: 1,
   num_seasons: 1,
-  last_updated: 1,
   rating: 1
 };
 
@@ -63,10 +62,9 @@ module.exports = {
         return res.json(err);
       });
     } else {
-      let query = {
-        num_seasons: {
-          $gt: 0
-        }
+      let query = {};
+      query.num_seasons = {
+        $gt: 0
       };
       const data = req.query;
 
@@ -90,47 +88,38 @@ module.exports = {
           }
           regex += ".+";
         }
-        query = {
-          title: new RegExp(regex, "gi"),
-          num_seasons: {
-            $gt: 0
-          }
-        };
+        query.title = new RegExp(regex, "gi");
       }
 
       if (data.sort) {
-        if (data.sort === "year") sort = {
-          year: parseInt(data.order, 10)
-        };
-        if (data.sort === "updated") sort = {
-          "episodes.first_aired": parseInt(data.order, 10)
-        };
         if (data.sort === "name") sort = {
-          title: (parseInt(data.order, 10) * -1)
+          "title": (parseInt(data.order, 10) * -1)
         };
         if (data.sort == "rating") sort = {
-          "rating.percentage": parseInt(data.order, 10)
+          "rating.percentage": parseInt(data.order, 10),
+	     "rating.votes": parseInt(data.order, 10)
         };
         if (data.sort == "trending") sort = {
           "rating.watching": parseInt(data.order, 10)
         };
+        if (data.sort === "updated") sort = {
+          "episodes.first_aired": parseInt(data.order, 10)
+        };
+        if (data.sort === "year") sort = {
+          "year": parseInt(data.order, 10)
+        };
       }
 
       if (data.genre && data.genre != "All") {
-        query = {
-          genres: data.genre.toLowerCase(),
-          num_seasons: {
-            $gt: 0
-          }
-        }
+        query.genres = data.genre.toLowerCase();
       }
 
       return Show.aggregate([{
-        $project: projection
+        $sort: sort
       }, {
         $match: query
       }, {
-        $sort: sort
+        $project: projection
       }, {
         $skip: offset
       }, {
@@ -146,9 +135,9 @@ module.exports = {
 
   /* Get info from one show. */
   getShow: (req, res) => {
-    return Show.find({
+    return Show.findOne({
       imdb_id: req.params.id
-    }).limit(1).exec().then((docs) => {
+    }).exec().then((docs) => {
       if (Array.isArray(docs)) docs = docs[0];
       return res.json(docs);
     }).catch((err) => {
@@ -172,37 +161,30 @@ module.exports = {
     };
 
     if (data.sort) {
-      if (data.sort === "year") sort = {
-        year: parseInt(data.order, 10)
+      if (data.sort === "name") sort = {
+        "title": (parseInt(data.order, 10) * -1)
+      };
+      if (data.sort == "rating") sort = {
+        "rating.percentage": parseInt(data.order, 10),
+	    "rating.votes": parseInt(data.order, 10)
+      };
+      if (data.sort == "trending") sort = {
+        "rating.watching": parseInt(data.order, 10)
       };
       if (data.sort === "updated") sort = {
         "episodes.first_aired": parseInt(data.order, 10)
       };
-      if (data.sort === "name") sort = {
-        title: (parseInt(data.order, 10) * -1)
-      };
-      if (data.sort == "rating") sort = {
-        "rating.percentage": parseInt(data.order, 10),
-      };
-      if (data.sort == "trending") sort = {
-        "rating.watching": parseInt(data.order, 10),
+      if (data.sort === "year") sort = {
+        "year": parseInt(data.order, 10)
       };
     }
 
-    return Show.aggregate([
-    {
-      $match: {
-        imdb_id:{
-          $in: req.params.ids.split(',')
-        },
-        num_seasons: {
-          $gt: 0
-        }
-      }
+    return Show.aggregate([{
+      $sort: sort
+    }, {
+      $match: query
     }, {
       $project: projection
-    }, {
-      $sort: sort
     }, {
       $limit: config.pageSize
     }]).exec().then((docs) => {

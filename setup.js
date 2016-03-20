@@ -4,12 +4,11 @@ const fs = require("fs"),
   compress = require("compression"),
   express = require("express"),
   logger = require("morgan"),
+  mongoose = require("mongoose"),
   responseTime = require("response-time"),
   colors = require('colors/safe'),
+  util = require("./util"),
   config = require("./config");
-
-const mongoose = require("mongoose");
-mongoose.Promise = global.Promise;
 
 RegExp.escape = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -53,7 +52,7 @@ module.exports = (config, app) => {
         write: function(msg){
 		  msg = msg.split(' - ');
 		  if(config.logs.request.output.console == true){
-            console.log('API:', (config.colorOutput ? (msg[0] + ' - ' + colors.cyan(msg[1])) : (msg[0] + ' - ' + msg[1])));
+            util.log('API:', (config.colorOutput ? (msg[0] + ' - ' + colors.cyan(msg[1])) : (msg[0] + ' - ' + msg[1])));
           }
           if(config.logs.request.output.log == true){
             fs.appendFile(join(config.tempDir, config.logs.request.file), (msg[0] + ' - ' + msg[1]));

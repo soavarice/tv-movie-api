@@ -38,12 +38,12 @@ module.exports = {
     try{ statusJSON = JSON.parse(fs.readFileSync(join(config.tempDir, config.statusFile), "utf8")); }
     catch (e) { statusJSON = { "status": "Idle" } }
     
-    return Show.count({
-      num_seasons: {
-        $gt: 0
-      }
-    }).then((showCount) => {
-      return Movie.count({}).exec().then((movieCount) => {
+    return Movie.count({}).exec().then((movieCount) => {
+      return Show.count({
+        num_seasons: {
+          $gt: 0
+        }
+      }).exec().then((showCount) => {
         let serverInfo = {
           server: config.serverName,
           status: statusJSON.status,
@@ -62,9 +62,6 @@ module.exports = {
         if(config.logs.error.output.log) serverInfo.logs.error = "/logs/error";
     
         return res.json(serverInfo);
-      }).catch((err) => {
-        util.onError(err);
-        return res.json(err);
       });
     }).catch((err) => {
       util.onError(err);

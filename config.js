@@ -6,7 +6,7 @@ const config = {
   scrapers: {
     "tv": {
       "eztv": true,
-      "kat": false
+      "kat": true
     },
     "movies": {
       "kat": true
@@ -23,28 +23,28 @@ const config = {
       }
     },
     "info": {
-        "file": "tv-api.log",
+        "file": "tv-movie-api.log",
         "output": {
           "console": true,
           "log": false
         }
     },
     "warning": {
-        "file": "tv-api-warning.log",
+        "file": "tv-movie-api-warning.log",
         "output": {
           "console": false,
           "log": true
         }
     },
     "error": {
-      "file": "tv-api-error.log",
+      "file": "tv-movie-api-error.log",
       "output": {
         "console": false,
         "log": true
       }
     },
     "request": {
-      "file": "tv-api-request.log",
+      "file": "tv-movie-api-request.log",
       "output": {
         "console": false,
         "log": true
@@ -228,7 +228,7 @@ const config = {
     "youre-the-worst-2014": "you-re-the-worst",
     "youre-the-worst": "you-re-the-worst"
   },
-  providers: [{
+  showProviders: [{
     name: "ZonerLOL",
     query: {
       query: "x264-LOL",
@@ -379,6 +379,13 @@ const config = {
     name: "VTV",
     query: {
       uploader: "VTV"
+    }
+  }],
+  movieProviders: [{
+    name: "Megaradon",
+    query: {
+      query: "720p",
+      uploader: "megaradon"
     }
   }]
 };

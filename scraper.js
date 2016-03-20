@@ -1,15 +1,28 @@
 const async = require("async-q"),
   config = require("./config"),
   eztv = require("./providers/show/eztv")("EZTV"),
-  kat = require("./providers/show/kat"),
+  katMovie = require("./providers/movie/kat"),
+  katShow = require("./providers/show/kat"),
   util = require("./util");
 
-/* Start scraping from KAT. */
-const scrapeKAT = () => {
-  return async.eachSeries(config.providers, (provider) => {
+/* Start movie scraping from KAT. */
+const scrapeKATMovies = () => {
+  return async.eachSeries(config.movieProviders, (provider) => {
     util.setStatus("Scraping " + provider.name);
-    const katProvider = kat(provider.name);
-    return util.spawn(kat.search(provider)).then((response) => {
+    const katProvider = katMovie(provider.name);
+    return util.spawn(katProvider.search(provider)).then((response) => {
+      util.log(provider.name + ": Done.");
+      return response;
+    });
+  });
+};
+  
+/* Start show scraping from KAT. */
+const scrapeKATShows = () => {
+  return async.eachSeries(config.showProviders, (provider) => {
+    util.setStatus("Scraping " + provider.name);
+    const katProvider = katShow(provider.name);
+    return util.spawn(katProvider.search(provider)).then((response) => {
       util.log(provider.name + ": Done.");
       return response;
     });
@@ -31,9 +44,14 @@ module.exports = {
   scrape: () => {
 	let start_time = new Date();
     let scrapers = [];
+	
     if(config.scrapers.tv.eztv) scrapers.push(scrapeEZTV);
-    if(config.scrapers.tv.kat) scrapers.push(scrapeKAT);
+    if(config.scrapers.tv.kat) scrapers.push(scrapeKATShows);
+	if(config.scrapers.movies.kat) scrapers.push(scrapeKATMovies);
     
+	util.resetTemp();
+    util.setlastUpdate();
+	
     if(scrapers.length !== 0) {
       async.eachSeries(scrapers, (scraper) => {
         return scraper();

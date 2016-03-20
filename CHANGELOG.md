@@ -1,19 +1,26 @@
-1.1.2-1 - Grab the popcorn? - 19 March 2016
-==================================================
+1.2.0 - Grab the popcorn - 20 March 2016
+========================================
 
 Info:
  - Changed name to TV Movie API
- 
-Bug fixes:
- - 
+  - repo renamed to tv-movie-api
+ - Added `imdbMap` to config to correct imdb ids
 
+Bug fixes:
+ - Fix some temp files not being written correctly
+ 
 Features:
  - Added Movies to the API
+  - scrape movies from KAT.cr with providers,
+    like the show scraping
+  - New routes to get list of movies or a specific
+    movie
  - Enable showing of message time for logging, can
    be set for console, log, none or both
 
+
 1.1.1 - Fix all the things! - 18 March 2016
-==================================================
+===========================================
 
 Info:
  - Required Node.js version is now in the readme
@@ -23,7 +30,7 @@ Info:
  - Removed dependency on `Q`
  - Replaced `slug` with `imdb` for getting seasonal 
    metadata from trakt.tv
- - Required NodeJS version was changed to `5.x+`
+ - Required NodeJS version was changed to `5.0.0+`
  - Added required MongoDB version to README.md
  - Removed deprecated routes
 
@@ -60,7 +67,7 @@ Features:
 	 there route on the index, the following
 
 1.1.0 - It's getting colorful! - 10 March 2016
-==================================================
+==============================================
 
 Features:
  - Get multiple shows by id at once
@@ -68,7 +75,7 @@ Features:
  - Color console output (Enable/Disable in `config.js`)
 
 1.0.2 - It's time to split. - 9 March 2016
-==================================================
+==========================================
 
 Info:
  - Forked from: https://github.com/popcorn-official/popcorn-api
@@ -77,8 +84,8 @@ Bug fixes:
  - Retry on KAT.cr timeout
  - Updated start command in readme
 
-1.0.1 - What's trening? - 6 March 2016
-======================================
+1.0.1 - What's trending? - 6 March 2016
+=======================================
 
 Bug fixes:
  - Sort by trending
@@ -88,5 +95,5 @@ Bug fixes:
 
 Features:
  - Scraping EZTV.ag just like the old API
- - Scraping KAT.cr with 17 different providers
+ - Scraping KAT.cr with different providers
  - Able to add more providers for kat.cr scraping
