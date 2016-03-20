@@ -182,7 +182,11 @@ module.exports = {
     return Show.aggregate([{
       $sort: sort
     }, {
-      $match: query
+      $match: {
+        imdb_id:{
+          $in: req.params.ids.split(',')
+        }
+      }
     }, {
       $project: projection
     }, {

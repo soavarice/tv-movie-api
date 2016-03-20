@@ -163,8 +163,7 @@ module.exports = {
       };      
     }
 
-    return Movie.aggregate([
-    {
+    return Movie.aggregate([{
       $sort: sort
     }, {
       $match: {
