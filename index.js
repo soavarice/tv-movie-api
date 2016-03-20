@@ -36,5 +36,5 @@ if (cluster.isMaster) {
     });
   }
 } else {
-  app.listen(config.port);
+  app.listen(config.port, config.ip);
 }

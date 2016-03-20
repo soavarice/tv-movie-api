@@ -1,5 +1,6 @@
 const config = {
   master: true,
+  ip: 0,
   port: 80,
   workers: 2,
   scrapeTime: "0 0 */6 * * *",
@@ -13,7 +14,7 @@ const config = {
     }
   },
   pageSize: 50,
-  serverName: require("os").hostname(),
+  serverName: "TV Movie API",
   tempDir: "./tmp",
   logs: {
     "global": {
