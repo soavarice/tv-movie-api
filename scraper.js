@@ -46,8 +46,8 @@ module.exports = {
     let scrapers = [];
 	
     if(config.scrapers.tv.eztv) scrapers.push(scrapeEZTV);
-    if(config.scrapers.tv.kat) scrapers.push(scrapeKATShows);
 	if(config.scrapers.movies.kat) scrapers.push(scrapeKATMovies);
+    if(config.scrapers.tv.kat) scrapers.push(scrapeKATShows);
     
 	util.resetTemp();
     util.setlastUpdate();

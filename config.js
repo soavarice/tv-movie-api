@@ -383,10 +383,27 @@ const config = {
     }
   }],
   movieProviders: [{
+    name: "YIFI",
+    query: {
+      query: "720p | 1080p",
+      uploader: "YIFI"
+    }
+  }, {
+    name: "SPARKS",
+    query: {
+      query: "SPARKS"
+    }
+  }, {
     name: "Megaradon",
     query: {
-      query: "720p",
+      query: "720p | 1080p",
       uploader: "megaradon"
+    }
+  }, {
+    name: "Z0n321",
+    query: {
+      query: "720p | 1080p",
+      uploader: "z0n321"
     }
   }]
 };
