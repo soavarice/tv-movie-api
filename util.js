@@ -39,7 +39,44 @@ module.exports = {
   onError: (errorMessage) => {
     let date = new Date();
     let time = ('00' + date.getHours()).slice(-2) + ':' + ('00' + date.getMinutes()).slice(-2) + ':' + ('00' + date.getSeconds()).slice(-2);
-    if(errorMessage.toLowerCase().startsWith('error')){
+    if(typeof errorMessage === 'string') {
+	  if(errorMessage.toLowerCase().startsWith('error')){
+        if(config.logs.error.output.console){
+          if(config.logs.global.showTime.console){
+            console.error((config.colorOutput ? colors.red('[' + time + '] ' + errorMessage) : '[' + time + '] ' + errorMessage));
+          } else {
+            console.error((config.colorOutput ? colors.red(errorMessage) : errorMessage));
+          }
+        }
+        if(config.logs.error.output.log){
+          if(config.logs.global.showTime.log){
+            fs.appendFile(join(config.tempDir, config.logs.error.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+          } else {
+            fs.appendFile(join(config.tempDir, config.logs.error.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+          }
+        }
+      } else {
+        if(config.logs.warning.output.console){
+          if(!errorMessage.toLowerCase().startsWith('error')){
+            if(config.logs.global.showTime.console){
+              console.warn(config.colorOutput ? colors.yellow('[' + time + '] ' + errorMessage) : '[' + time + '] ' + errorMessage);
+            } else {
+              console.warn(config.colorOutput ? colors.yellow(errorMessage) : errorMessage);
+            }
+          }
+        }
+        if(config.logs.warning.output.log){
+          if(!errorMessage.toLowerCase().startsWith('error')){
+            if(config.logs.global.showTime.log){
+              fs.appendFile(join(config.tempDir, config.logs.warning.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+            } else {
+              fs.appendFile(join(config.tempDir, config.logs.warning.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+            }
+          }
+        }
+      }
+    } else {
+	  //Non String Msgs
       if(config.logs.error.output.console){
         if(config.logs.global.showTime.console){
           console.error((config.colorOutput ? colors.red('[' + time + '] ' + errorMessage) : '[' + time + '] ' + errorMessage));
@@ -52,25 +89,6 @@ module.exports = {
           fs.appendFile(join(config.tempDir, config.logs.error.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
         } else {
           fs.appendFile(join(config.tempDir, config.logs.error.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
-        }
-      }
-    } else {
-      if(config.logs.warning.output.console){
-        if(!errorMessage.toLowerCase().startsWith('error')){
-          if(config.logs.global.showTime.console){
-            console.warn(config.colorOutput ? colors.yellow('[' + time + '] ' + errorMessage) : '[' + time + '] ' + errorMessage);
-          } else {
-            console.warn(config.colorOutput ? colors.yellow(errorMessage) : errorMessage);
-          }
-        }
-      }
-      if(config.logs.warning.output.log){
-        if(!errorMessage.toLowerCase().startsWith('error')){
-          if(config.logs.global.showTime.log){
-            fs.appendFile(join(config.tempDir, config.logs.warning.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
-          } else {
-            fs.appendFile(join(config.tempDir, config.logs.warning.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
-          }
         }
       }
     }

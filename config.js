@@ -58,7 +58,7 @@ const config = {
   updateTimeFile: "updateTime.json",
   dbHosts: [ "localhost" ],
   maxWebRequest: 2,
-  webRequestTimeout: 4,
+  webRequestTimeout: 6,
   traktKey: "70c43f8f4c0de74a33ac1e66b6067f11d14ad13e33cd4ebd08860ba8be014907",
   eztvMap: {
     "10-oclock-live": "10-o-clock-live",
