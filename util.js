@@ -1,6 +1,8 @@
 const CronJob = require("cron").CronJob,
   fs = require("fs"),
-  join = require("path").join,
+  path = require("path"),
+  join = path.join,
+  extname = path.extname,
   colors = require('colors/safe'),
   config = require("./config");
 
@@ -159,14 +161,18 @@ module.exports = {
   },
 
   /* Removes all the files in the temporary directory. */
-  resetTemp: (callback, path = config.tempDir) => {
+  resetTemp: (callback, filter, path = config.tempDir) => {
     const files = fs.readdirSync(path);
-    files.forEach((file) => {
+	files.forEach((file) => {
       const stats = fs.statSync(join(path, file));
       if (stats.isDirectory()) {
-        resetTemp(file);
+        resetTemp(file, filter);
       } else if (stats.isFile()) {
-        fs.unlinkSync(join(path, file));
+        if(filter !== 'undefined'){
+          if(extname(file) == filter) fs.unlinkSync(join(path, file));
+        } else {
+          fs.unlinkSync(join(path, file));
+        }
       }
     });
     makeTemp();

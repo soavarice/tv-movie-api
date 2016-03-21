@@ -49,7 +49,7 @@ module.exports = {
 	if(config.scrapers.movies.kat) scrapers.push(scrapeKATMovies);
     if(config.scrapers.tv.kat) scrapers.push(scrapeKATShows);
     
-	util.resetTemp();
+	util.resetTemp('.log');
     util.setlastUpdate();
 	
     if(scrapers.length !== 0) {
