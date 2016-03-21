@@ -86,9 +86,9 @@ module.exports = {
       }
       if(config.logs.error.output.log){
         if(config.logs.global.showTime.log){
-          fs.appendFile(join(config.tempDir, config.logs.error.file), '[' + time + '] ' + errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+          fs.appendFile(join(config.tempDir, config.logs.error.file), '[' + time + '] ' + errorMessage.toString().replace(/\x1B\[\d+m/g, '') + "\n");
         } else {
-          fs.appendFile(join(config.tempDir, config.logs.error.file), errorMessage.replace(/\x1B\[\d+m/g, '') + "\n");
+          fs.appendFile(join(config.tempDir, config.logs.error.file), errorMessage.toString().replace(/\x1B\[\d+m/g, '') + "\n");
         }
       }
     }
