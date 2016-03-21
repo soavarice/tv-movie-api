@@ -383,10 +383,10 @@ const config = {
     }
   }],
   movieProviders: [{
-    name: "YIFI",
+    name: "YIFY",
     query: {
       query: "720p | 1080p",
-      uploader: "YIFI"
+      uploader: "YIFY"
     }
   }, {
     name: "SPARKS",
