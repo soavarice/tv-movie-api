@@ -10,7 +10,7 @@ It contains:
 
 Installation
 ============
-1. Install MongoDB (version `3.2+`)
+1. Install MongoDB (version `3.0+`)
 2. Install NodeJS (version `5.0.0+`)
 3. install dependencies `cd tv-movie-api` and `npm install`
 4. Start the API with `npm start` or `node --harmony --harmony_destructuring --harmony_default_parameters --use_strict index.js`

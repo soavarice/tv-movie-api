@@ -5,6 +5,8 @@ Info:
  - Changed name to TV Movie API
   - repo renamed to tv-movie-api
  - Added `imdbMap` to config to correct imdb ids
+ - Changed required MongoDB version from `3.2+` 
+   to `3.0+`
 
 Bug fixes:
  - Fix some temp files not being written correctly
