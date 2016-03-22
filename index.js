@@ -29,7 +29,23 @@ if (cluster.isMaster) {
   if (config.master) {
     const scope = domain.create();
     scope.run(() => {
-      util.initCron(config.scrapeTime, scraper.scrape(), util.setStatus("Idle"));
+      try {
+        const job = new CronJob({
+          cronTime: config.scrapeTime,
+          onTick: () => {
+            scraper.scrape();
+          },
+          onComplete: () => {
+            util.setStatus("Idle");
+          },
+          start: true,
+          timeZone: "America/Los_Angeles"
+        });
+        util.log("Cron job started");
+      } catch (ex) {
+        util.onError("Cron pattern not valid");
+      }
+      scraper.scrape();
     });
     scope.on("error", (err) => {
       util.onError(err);

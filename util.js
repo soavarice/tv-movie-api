@@ -176,27 +176,6 @@ module.exports = {
       }
     });
     makeTemp();
-  },
-  
-  /* Initiates the cronjob. */
-  initCron: (cronTime, job, doneFunction) => {
-    try {
-      const job = new CronJob({
-        cronTime: cronTime,
-        onTick: () => {
-          job;
-        },
-        onComplete: () => {
-          doneFunction;
-        },
-        start: true,
-        timeZone: "America/Los_Angeles"
-      });
-      console.log("Cron job started");
-    } catch (ex) {
-      util.onError("Cron pattern not valid");
-    }
-    job;
   }
 
 };
