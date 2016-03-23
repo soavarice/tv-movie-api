@@ -114,22 +114,31 @@ module.exports = {
         query.genres = data.genre.toLowerCase();
       }
 
-      return Show.aggregate([{
-        $sort: sort
-      }, {
-        $match: query
-      }, {
-        $project: projection
-      }, {
-        $skip: offset
-      }, {
-        $limit: config.pageSize
-      }]).exec().then((docs) => {
-        return res.json(docs);
-      }).catch((err) => {
-        util.onError(err);
-        return res.json(err);
-      });
+      if (data.sort === "updated") {
+        return Show.find(query, projection).sort(sort).skip(offset).limit(config.pageSize).exec().then((docs) => {
+          return res.json(docs);
+        }).catch((err) => {
+          util.onError(err);
+          return res.json(err);
+        });
+      } else {
+        return Show.aggregate([{
+          $sort: sort
+        }, {
+          $match: query
+        }, {
+          $project: projection
+        }, {
+          $skip: offset
+        }, {
+          $limit: config.pageSize
+        }]).exec().then((docs) => {
+          return res.json(docs);
+        }).catch((err) => {
+          util.onError(err);
+          return res.json(err);
+        });
+      }
     }
   },
 
@@ -179,24 +188,31 @@ module.exports = {
       };
     }
 
-    return Show.aggregate([{
-      $sort: sort
-    }, {
-      $match: {
-        imdb_id:{
-          $in: req.params.ids.split(',')
-        }
-      }
-    }, {
-      $project: projection
-    }, {
-      $limit: config.pageSize
-    }]).exec().then((docs) => {
-      return res.json(docs);
-    }).catch((err) => {
-      util.onError(err); 
-      return res.json(err);
-    });
+    if (data.sort === "updated") {
+      return Show.find(query, projection).sort(sort).skip(offset).limit(config.pageSize).exec().then((docs) => {
+        return res.json(docs);
+      }).catch((err) => {
+        util.onError(err);
+        return res.json(err);
+      });
+    } else {
+      return Show.aggregate([{
+        $sort: sort
+      }, {
+        $match: query
+      }, {
+        $project: projection
+      }, {
+        $skip: offset
+      }, {
+        $limit: config.pageSize
+      }]).exec().then((docs) => {
+        return res.json(docs);
+      }).catch((err) => {
+        util.onError(err);
+        return res.json(err);
+      });
+    }
   }
 
 };

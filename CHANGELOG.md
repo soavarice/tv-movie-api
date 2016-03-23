@@ -49,7 +49,7 @@ Bug fixes:
  - Fixed new bugs introduced during 1.1.1
    - Fixed API not setting the last updated time correctly
    - Status will now be set to `Idle` after scraping is done
-   - Fixed issue with MongoDB limitations to sorting
+   - Partially fixed issues with MongoDB limitations to sorting
  - Made scraping EZTV faster by merging the `getShowDetails` 
    and `getAllEpisodes` functions
  
