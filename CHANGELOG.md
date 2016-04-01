@@ -1,3 +1,13 @@
+1.2.1 - Grab the popcorn - 1 April 2016
+=======================================
+
+Features:
+ - Movies can be filtered to show movies
+   that have 1080p or 720p torrents using
+   the new `?quality=<quality>` filter
+ - Hopefully removed CAM torrents from 
+   movies
+
 1.2.0 - Grab the popcorn - 20 March 2016
 ========================================
 

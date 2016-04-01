@@ -76,27 +76,37 @@ module.exports = {
         query.title = new RegExp(regex, "gi");
       }
 
-    if (data.sort) {
-	  if (data.sort === "name") sort = {
-        "title": (parseInt(data.order, 10) * -1)
-      };
-	  if (data.sort == "rating") sort = {
-        "rating.percentage": parseInt(data.order, 10),
-		"rating.votes": parseInt(data.order, 10)
-      };
-	  if (data.sort == "trending") sort = {
-        "rating.watching": parseInt(data.order, 10)
-      };
-	  if (data.sort === "updated") sort = {
-        "released": parseInt(data.order, 10)
-      };
-      if (data.sort === "year") sort = {
-        "year": parseInt(data.order, 10)
-      };      
-    }
+      if (data.sort) {
+	    if (data.sort === "name") sort = {
+          "title": (parseInt(data.order, 10) * -1)
+        };
+	    if (data.sort == "rating") sort = {
+          "rating.percentage": parseInt(data.order, 10),
+	  	"rating.votes": parseInt(data.order, 10)
+        };
+	    if (data.sort == "trending") sort = {
+          "rating.watching": parseInt(data.order, 10)
+        };
+	    if (data.sort === "updated") sort = {
+          "released": parseInt(data.order, 10)
+        };
+        if (data.sort === "year") sort = {
+          "year": parseInt(data.order, 10)
+        };      
+      }
 
       if (data.genre && data.genre != "All") {
         query.genres = data.genre.toLowerCase();
+      }
+
+      if (data.quality && data.quality == '1080p') {
+        query['torrents.1080p'] = { 
+          $exists: true
+        }
+      } else if (data.quality && data.quality == '720p') {
+        query['torrents.720p'] = { 
+          $exists: true
+        }
       }
 
       if (data.sort === "updated") {

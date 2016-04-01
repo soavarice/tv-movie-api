@@ -198,6 +198,7 @@ You can change the order of the sort by adding `&order=1` or `&order=-1` to the 
 There are 2 ways of filtering content:
  - `?keywords=`: filter content by keywords (for search functionality)
  - `?genre=`: filter content based on genres
+ - `?quality=`: **movies only** filter content by quality avaliable
 
 These filters can be used separately or together.
 

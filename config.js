@@ -396,13 +396,13 @@ const config = {
   }, {
     name: "Megaradon",
     query: {
-      query: "720p | 1080p",
+      query: "720p | 1080p -HC",
       uploader: "megaradon"
     }
   }, {
     name: "Z0n321",
     query: {
-      query: "720p | 1080p",
+      query: "720p | 1080p \"BluRay\"",
       uploader: "z0n321"
     }
   }]
