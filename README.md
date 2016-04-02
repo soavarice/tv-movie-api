@@ -13,7 +13,9 @@ Installation
 1. Install MongoDB (version `3.0+`)
 2. Install NodeJS (version `5.0.0+`)
 3. install dependencies `cd tv-movie-api` and `npm install`
-4. Start the API with `npm start` or `node --harmony --harmony_destructuring --harmony_default_parameters --use_strict index.js`
+4. Start the API using either of the following,
+ - `npm start` 
+ - `node --harmony --harmony_destructuring --harmony_default_parameters --use_strict index.js`
 
 Routes
 ======
@@ -286,4 +288,4 @@ If you distribute a copy or make a fork of the project, you have to credit this 
 
 --------------------------------------------------------------------------------
 
-Copyright (c) 2016 - Popcorn API - Released under the [GPL v3 license](LICENSE.txt).
+Copyright (c) 2016 - TV Movie API - Released under the [GPL v3 license](LICENSE.txt).
