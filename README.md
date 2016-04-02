@@ -192,7 +192,7 @@ The API contains the following 'routes' which produce the example output:
 
 **Example**
 
-`http://<api-url>/shows/select/tt0944947,tt4016454,tt2364582`
+`http://<api-url>/shows/select/tt3032476,tt4532368,tt2364582`
 
 ```
 [
