@@ -20,6 +20,7 @@ Routes
 The API contains the following 'routes' which produce the example output:
 
 `show/:imdb_id` - This returns all info and episodes for a particular show. Useful for the "show details" page in your app.
+
 `movie/:imdb_id` - This returns all info and episodes for a particular movie.
 
 **Example**
@@ -100,8 +101,11 @@ The API contains the following 'routes' which produce the example output:
 ```
 
 `shows/` - Returns the number of pages available to list 50 shows at a time (used for pagination etc).
-`movies/` - Returns the number of pages available to list 50 movies at a time
+
+`movies/` - Returns the number of pages available to list 50 movies at a time.
+
 `shows/:page` - Retuns a list of 50 shows with part of the metadata (For showing whats avalible to watch).
+
 `movies/:page` - Retuns a list of 50 movies with part of the metadata.
 
 **Example**
@@ -180,7 +184,64 @@ The API contains the following 'routes' which produce the example output:
 ]
 ```
 
+`shows/select/:ids` - Returns array of shows (matching the ids) with part of the metadata.
+
+`movies/select/:ids` - Returns array of movies (matching the ids) with part of the metadata.
+
+**Example**
+
+`http://<api-url>/shows/select/tt0944947,tt4016454,tt2364582`
+
+```
+[
+  {
+    "_id": "tt3032476",
+    "imdb_id": "tt3032476",
+    "tvdb_id": "273181",
+    "title": "Better Call Saul",
+    "year": "2015",
+    "slug": "tt3032476",
+    "rating": {
+      "percentage": 86,
+      "watching": 49,
+      "votes": 4391,
+      "loved": 100,
+      "hated": 100
+    },
+    "num_seasons": 2,
+    "images": {
+      "banner": "https://walter.trakt.us/images/shows/000/059/660/banners/original/3f00b6cebf.jpg",
+      "poster": "https://walter.trakt.us/images/shows/000/059/660/posters/original/a847b27956.jpg",
+      "fanart": "https://walter.trakt.us/images/shows/000/059/660/fanarts/original/5885092434.jpg"
+    }
+  },
+  {
+    "_id": "tt4532368",
+    "imdb_id": "tt4532368",
+    "tvdb_id": "295760",
+    "title": "DC's Legends of Tomorrow",
+    "year": "2016",
+    "slug": "dc-s-legends-of-tomorrow",
+    "rating": {
+      "percentage": 76,
+      "watching": 52,
+      "votes": 860,
+      "loved": 100,
+      "hated": 100
+    },
+    "num_seasons": 1,
+    "images": {
+      "banner": "https://walter.trakt.us/images/shows/000/098/898/banners/original/fc5fc1bb56.jpg",
+      "poster": "https://walter.trakt.us/images/shows/000/098/898/posters/original/7ecb6f08f0.jpg",
+      "fanart": "https://walter.trakt.us/images/shows/000/098/898/fanarts/original/cfbbb12db3.jpg"
+    }
+  },
+  ...
+]
+```
+
 **Sorting**
+
 Most API results can be sorted and filtered with the following query string:
 
 `?sort=`
@@ -195,10 +256,11 @@ Possible options are:
 You can change the order of the sort by adding `&order=1` or `&order=-1` to the query string.
 
 **Filtering**
-There are 2 ways of filtering content:
+
+There are 3 ways of filtering content:
  - `?keywords=`: filter content by keywords (for search functionality)
  - `?genre=`: filter content based on genres
- - `?quality=`: **movies only** filter content by quality avaliable
+ - `?quality=`: **_movies only_** filter content by quality avaliable
 
 These filters can be used separately or together.
 
