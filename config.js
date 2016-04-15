@@ -1,7 +1,7 @@
 const config = {
   master: true,
   ip: 0,
-  port: 80,
+  port: 8888,
   workers: 2,
   scrapeTime: "0 0 */6 * * *",
   scrapers: {
